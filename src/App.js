@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import Navbar from './components/Navbar/Navbar';
+// import Buy from './components/Buy/Buy';
+// import Sell from './components/Sell/Sell';
+import About from './components/About/About';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {page_section: 'about'}
+  }
+
+  render() {
+    const {page_section} = this.state;
+    return (
+      <div className="App">
+        <h1>Fakeconomy</h1>
+        <Navbar />
+        {page_section === 'about' ? <About />
+        : <h2>Loading...</h2>
+        }
+      </div>
+    );
+  }
 }
 
 export default App;
