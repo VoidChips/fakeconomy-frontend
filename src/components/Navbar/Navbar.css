@@ -24,3 +24,23 @@ li:hover {
     background-color: rgb(139, 235, 164);
     cursor: pointer;
 }
+
+.unselected {
+    transition: transform 1s;
+}
+
+.unselected:hover {
+    transform: scale(1.2);
+}
+
+.selected {
+    background-color: aquamarine;
+}
+
+p {
+    display: flex;
+    align-self: center;
+    padding: 0 4rem;
+    color: rgb(109, 66, 13);
+    font-family: 'Times New Roman', Times, serif;
+}
