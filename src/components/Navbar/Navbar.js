@@ -19,9 +19,7 @@ const Navbar = ({ updateSection, page_section, current_page_class, signIn, isSig
             <ul id='main-content'>
                 <li
                     
-                    onClick={() => {
-                        updateSection('buy')}
-                    }
+                    onClick={() => updateSection('buy')}              
                     className={selectCSS('buy')}
                 >Buy</li>
                 <li

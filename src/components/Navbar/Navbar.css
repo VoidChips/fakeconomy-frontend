@@ -16,21 +16,25 @@ li {
     padding: 0 4rem;
 }
 
+li:hover {
+    cursor: pointer;
+}
+
 #login {
     justify-self: flex-end;
 }
 
-li:hover {
-    background-color: rgb(139, 235, 164);
-    cursor: pointer;
+#login li:hover {
+    color: rgb(207, 114, 26);
 }
 
 .unselected {
-    transition: transform 1s;
+    transition: transform 0.3s;
 }
 
 .unselected:hover {
     transform: scale(1.2);
+    background-color: rgb(139, 235, 164);
 }
 
 .selected {
