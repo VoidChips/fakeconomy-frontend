@@ -11,7 +11,13 @@ class App extends Component {
     this.state = {
       page_section: 'about',
       current_page_class: 'unselected',
-      isSignedin: false
+      isSignedin: false,
+      users: [
+        {
+          username: 'void',
+          password: '123'
+        }
+      ]
     }
   }
 
@@ -22,7 +28,34 @@ class App extends Component {
   }
 
   signIn = () => {
+    const username = prompt('Username:');
+    const password = prompt('Password:');
+    const user_found = () => {
+      for (let user of this.state.users) {
+        if (user.username === username && user.password === password) {
+          return true;
+        }
+      }
+      return false;
+    }
+    if (user_found()) {
+      this.setState({ isSignedin: true });
+    }
+    else {
+      alert('No such user. Try again.');
+    }
+  }
+
+  register = () => {
+    const username = prompt('Username:');
+    const password = prompt('Password:');
+    const { users } = this.state;
+    users.push({ username, password });
     this.setState({ isSignedin: true });
+  }
+
+  signOut = () => {
+    this.setState({ isSignedin: false });
   }
 
   render() {
@@ -44,10 +77,10 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Fakeconomy</h1>
-        <Navbar updateSection={this.updateSection} page_section={page_section} current_page_class={current_page_class} signIn={this.signIn} isSignedin={isSignedin} />
+
+        <Navbar updateSection={this.updateSection} page_section={page_section} current_page_class={current_page_class} signIn={this.signIn} register={this.register} signOut={this.signOut} isSignedin={isSignedin} />
+
         {changeSection()}
-
-
       </div>
     );
   }
