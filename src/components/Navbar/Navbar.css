@@ -20,11 +20,12 @@ li:hover {
     cursor: pointer;
 }
 
-#login {
+#login-register {
     justify-self: flex-end;
+    color: rgb(241, 36, 36);
 }
 
-#login li:hover {
+#login-register li:hover {
     color: rgb(207, 114, 26);
 }
 
@@ -35,10 +36,15 @@ li:hover {
 .unselected:hover {
     transform: scale(1.2);
     background-color: rgb(139, 235, 164);
+    color: rgb(195, 121, 31);
 }
 
-.selected {
-    background-color: aquamarine;
+.selected-main {
+    background-color: rgb(67, 253, 197);
+}
+
+.selected-login-or-register {
+    background-color: rgb(32, 28, 22);
 }
 
 p {

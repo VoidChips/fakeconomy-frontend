@@ -1,10 +1,8 @@
 import React from 'react';
-// import Login from './Login/Login';
-// import Register from './Register/Register';
 import './Navbar.css';
 
 const Navbar =
-    ({ updateSection, page_section, current_page_class, signIn, register, signOut, isSignedin }) => {
+    ({ updateSection, page_section, current_page_class, login, register, signOut, isSignedin }) => {
 
         const selectCSS = (page) => {
             if (page === page_section) {
@@ -15,8 +13,27 @@ const Navbar =
             }
         }
 
+        const showNotLoggedInState = () => {
+            return (
+                <ul id='login-register'>
+                    <li
+                        onClick={() => updateSection('login')}
+                        className={selectCSS('login')}
+                    >
+                        Login
+                    </li>
+                    <li
+                        onClick={() => updateSection('register')}
+                        className={selectCSS('register')}
+                    >
+                        Register
+                    </li>
+                </ul>
+            );
+        }
+
         return (
-            <nav id='navbar'>
+            <nav id='navbar' >
                 <ul id='main-content'>
                     <li
 
@@ -34,18 +51,15 @@ const Navbar =
                         className={selectCSS('about')}
                     >About</li>
                 </ul>
-                {
+                { // only show the login and register text when not logged in
                     !isSignedin ?
-                        <ul id='login'>
-                            <li onClick={signIn}>Login</li>
-                            <li onClick={register}>Register</li>
-                        </ul>
+                        showNotLoggedInState()
                         :
-                        <p onClick={signOut}>Logout</p>
+                        <p onClick={signOut}>Logout</p >
 
                 }
 
-            </nav>
+            </nav >
         );
     }
 
