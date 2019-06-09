@@ -14,13 +14,7 @@ class App extends Component {
       page_section: 'about',
       current_page_class: 'unselected',
       isSignedin: false,
-      users: [
-        {
-          email: 'void@gmail.com',
-          username: 'void',
-          password: '123'
-        }
-      ]
+      users: []
     }
   }
 
@@ -33,7 +27,14 @@ class App extends Component {
     else {
       this.setState({ current_page_class: 'selected-login-or-register' });
     }
+  }
 
+  // get the users data from the server
+  async componentDidMount() {
+    // change to http://localhost:3000 when developing locally
+    const response = await fetch('http://localhost:3000');
+    const data = await response.json();
+    this.setState({users: data});
   }
 
   // get login info from login screen and change to buy screen if successful
@@ -58,6 +59,20 @@ class App extends Component {
   register = (email, username, password) => {
     const { users } = this.state;
     users.push({ email, username, password });
+    // post new user's info to server
+    fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'email': email,
+        'username': username,
+        'password': password,
+      })
+    })
+
     this.setState({ isSignedin: true });
     this.updateSection('buy');
   }
@@ -67,13 +82,13 @@ class App extends Component {
   }
 
   render() {
-    const { page_section, current_page_class, isSignedin } = this.state;
+    const { users, page_section, current_page_class, isSignedin } = this.state;
 
     // change section based on what page_section is
     const changeSection = () => {
       switch (page_section) {
         case 'about':
-          return <About />
+          return <About {...users} />
         case 'buy':
           return <Buy />
         case 'sell':
@@ -81,7 +96,7 @@ class App extends Component {
         case 'login':
           return <Login login={this.login} />
         case 'register':
-          return <Register register={this.register}/>
+          return <Register register={this.register} />
         default:
           return <h2>Loading...</h2>
       }

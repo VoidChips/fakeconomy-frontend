@@ -1,0 +1,8 @@
+.users {
+    color: rgb(226, 17, 17);
+    font-size: 1.5rem;
+}
+
+.users > li:hover {
+    cursor: default;
+}

@@ -36,17 +36,14 @@ const Navbar =
             <nav id='navbar' >
                 <ul id='main-content'>
                     <li
-
                         onClick={() => updateSection('buy')}
                         className={selectCSS('buy')}
                     >Buy</li>
                     <li
-
                         onClick={() => updateSection('sell')}
                         className={selectCSS('sell')}
                     >Sell</li>
                     <li
-
                         onClick={() => updateSection('about')}
                         className={selectCSS('about')}
                     >About</li>
