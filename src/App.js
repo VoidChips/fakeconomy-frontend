@@ -34,20 +34,19 @@ class App extends Component {
     // change to http://localhost:3000 when developing locally
     const response = await fetch('http://localhost:3000/users');
     const data = await response.json();
-    this.setState({users: data});
+    this.setState({ users: data });
   }
 
   // get login info from login screen and change to buy screen if successful
   login = (username, password) => {
-    const user_found = () => {
-      for (let user of this.state.users) {
-        if (user.username === username && user.password === password) {
-          return true;
-        }
+    // check if user exists
+    let isFound = false;
+    for (let user of this.state.users) {
+      if (user.username === username && user.password === password) {
+        isFound = true; // if user exists, isFound is true
       }
-      return false;
     }
-    if (user_found()) {
+    if (isFound) {
       this.setState({ isSignedin: true });
       this.updateSection('buy');
     }
@@ -58,23 +57,34 @@ class App extends Component {
 
   register = (email, username, password) => {
     const { users } = this.state;
-    users.push({ email, username, password });
-    // post new user's info to server
-    fetch('http://localhost:3000/register', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        'email': email,
-        'username': username,
-        'password': password,
+    let isFound = false;
+    for (let user of this.state.users) {
+      if (user.email === email || user.username === username) {
+        isFound = true;
+      }
+    }
+    if (!isFound) {
+      // add new user to the users array
+      users.push({ email, username, password });
+      // post new user's info to server
+      fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          'email': email,
+          'username': username,
+          'password': password,
+        })
       })
-    })
-
-    this.setState({ isSignedin: true });
-    this.updateSection('buy');
+      this.setState({ isSignedin: true });
+      this.updateSection('buy');
+    }
+    else {
+      alert('Sorry, user already exists.');
+    }
   }
 
   signOut = () => {
