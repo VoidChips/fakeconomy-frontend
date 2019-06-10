@@ -57,34 +57,23 @@ class App extends Component {
 
   register = (email, username, password) => {
     const { users } = this.state;
-    let isFound = false;
-    for (let user of this.state.users) {
-      if (user.email === email || user.username === username) {
-        isFound = true;
-      }
-    }
-    if (!isFound) {
-      // add new user to the users array
-      users.push({ email, username, password });
-      // post new user's info to server
-      fetch('http://localhost:3000/register', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          'email': email,
-          'username': username,
-          'password': password,
-        })
+    // register if user doesn't exist
+    fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'email': email,
+        'username': username,
+        'password': password,
       })
-      this.setState({ isSignedin: true });
-      this.updateSection('buy');
-    }
-    else {
-      alert('Sorry, user already exists.');
-    }
+    })
+    // force to update the user list in real time
+    users.push({ email, username, password });
+    this.setState({ isSignedin: true });
+    this.updateSection('buy');
   }
 
   signOut = () => {
