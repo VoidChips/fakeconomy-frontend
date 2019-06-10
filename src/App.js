@@ -56,7 +56,6 @@ class App extends Component {
   }
 
   register = (email, username, password) => {
-    const { users } = this.state;
     // register if user doesn't exist
     fetch('http://localhost:3000/register', {
       method: 'POST',
@@ -70,8 +69,7 @@ class App extends Component {
         'password': password,
       })
     })
-    // force to update the user list in real time
-    users.push({ email, username, password });
+    // will login even if the user exists
     this.setState({ isSignedin: true });
     this.updateSection('buy');
   }
