@@ -32,7 +32,7 @@ class App extends Component {
   // get the users data from the server
   async componentDidMount() {
     // change to http://localhost:3000 when developing locally
-    const response = await fetch('http://localhost:3000');
+    const response = await fetch('http://localhost:3000/users');
     const data = await response.json();
     this.setState({users: data});
   }
