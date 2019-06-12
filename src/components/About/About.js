@@ -1,20 +1,17 @@
 import React from 'react';
 import './About.css';
 
-const About = (props) => {
-    const length = Object.keys(props).length;
-    const usernames = [];
-    for (let i = 0; i < length; i++) {
-        usernames.push(props[i].username);
+const About = ({ getUsers }) => {
+    const users = getUsers();
+    const UsersList = [];
+    const addList = () => {
+        let i = 0;
+        for (let user of users) {
+            UsersList.push(<li key={i}>{user}</li>)
+            i++;
+        }
     }
-
-    let username_lists = [];
-    for (let i = 0; i < usernames.length; i++) {
-        username_lists.push(<li key={i}>{usernames[i]}</li>)
-    }
-    console.log(usernames);
-
-
+    addList();
     return (
         <div>
             <h2>This website is still in development.</h2>
@@ -23,9 +20,8 @@ const About = (props) => {
             <h2>Users: </h2>
             <br></br>
             <ol className='users'>
-                {username_lists}
+                {UsersList}
             </ol>
-
         </div>
     );
 }

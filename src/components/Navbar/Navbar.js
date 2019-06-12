@@ -2,7 +2,7 @@ import React from 'react';
 import './Navbar.css';
 
 const Navbar =
-    ({ updateSection, page_section, current_page_class, login, register, signOut, isSignedin }) => {
+    ({ updateSection, page_section, current_page_class, signOut, isSignedin }) => {
 
         const selectCSS = (page) => {
             if (page === page_section) {

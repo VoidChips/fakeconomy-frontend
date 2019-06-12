@@ -6,7 +6,7 @@ class Login extends React.Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
         }
     }
 
@@ -20,7 +20,13 @@ class Login extends React.Component {
 
     submitLoginInfo = () => {
         const {username, password} = this.state;
-        this.props.login(username, password);
+        const { login } = this.props;
+        if (username === '' || password === '') {
+            alert('Please enter both username and password');
+        }
+        else {
+            login(username, password);
+        } 
     }
 
     render() {

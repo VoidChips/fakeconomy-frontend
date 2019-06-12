@@ -25,7 +25,13 @@ class Register extends React.Component {
 
     submitRegisterInfo = () => {
         const { email, username, password } = this.state;
-        this.props.register(email, username, password);
+        const { register } = this.props;
+        if (email === '' || username === '' || password === '') {
+            alert('Do not leave any fields blank.');
+        }
+        else {
+            register(email, username, password);
+        }
     }
 
     render() {

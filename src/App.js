@@ -31,28 +31,44 @@ class App extends Component {
 
   // get the users data from the server
   async componentDidMount() {
-    // change to http://localhost:3000 when developing locally
+    // for usernames
     const response = await fetch('http://localhost:3000/users');
     const data = await response.json();
     this.setState({ users: data });
   }
 
+  // give child components access to users
+  getUsers = () => {
+    return this.state.users;
+  }
+
   // get login info from login screen and change to buy screen if successful
   login = (username, password) => {
-    // check if user exists
-    let isFound = false;
-    for (let user of this.state.users) {
-      if (user.username === username && user.password === password) {
-        isFound = true; // if user exists, isFound is true
-      }
-    }
-    if (isFound) {
-      this.setState({ isSignedin: true });
-      this.updateSection('buy');
-    }
-    else {
-      alert('No such user. Try again.');
-    }
+    // check if user exists on the server
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'username': username,
+        'password': password
+      })
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.result === 'found') {
+          this.setState({ isSignedin: true });
+          this.updateSection('about');
+        }
+        else if (result.result === 'not found') {
+          alert('This user does not exist');
+        }
+        else {
+          alert('Something went wrong. Try again.')
+        }
+      });
   }
 
   register = (email, username, password) => {
@@ -61,17 +77,28 @@ class App extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         'email': email,
         'username': username,
-        'password': password,
+        'password': password
       })
     })
-    // will login even if the user exists
-    this.setState({ isSignedin: true });
-    this.updateSection('buy');
+      .then(response => response.json())
+      .then(result => {
+        if (result.result === 'success') {
+          this.componentDidMount();
+          this.setState({ isSignedin: true });
+          this.updateSection('about');
+        }
+        else if (result.result === 'user already exists') {
+          alert('User already exists. Try entering a different email or username');
+        }
+        else {
+          alert('Something went wrong. Try again.');
+        }
+      });
   }
 
   signOut = () => {
@@ -79,13 +106,13 @@ class App extends Component {
   }
 
   render() {
-    const { users, page_section, current_page_class, isSignedin } = this.state;
+    const { page_section, current_page_class, isSignedin } = this.state;
 
     // change section based on what page_section is
     const changeSection = () => {
       switch (page_section) {
         case 'about':
-          return <About {...users} />
+          return <About getUsers={this.getUsers} />
         case 'buy':
           return <Buy />
         case 'sell':
