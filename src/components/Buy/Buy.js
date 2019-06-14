@@ -12,7 +12,7 @@ class Buy extends React.Component {
     componentDidMount() {
         // get balance
         if (this.props.isSignedin) {
-            fetch('https://www.fakeconomy.com/users', {
+            fetch('https://www.fakeconomy.com/balance', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
