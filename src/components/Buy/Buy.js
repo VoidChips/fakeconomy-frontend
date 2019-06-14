@@ -12,7 +12,7 @@ class Buy extends React.Component {
     componentDidMount() {
         // get balance
         if (this.props.isSignedin) {
-            fetch('http://localhost:3000/balance', {
+            fetch('https://www.fakeconomy.com/users', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -32,7 +32,7 @@ class Buy extends React.Component {
     // called whenever user buys something
     updateBalance(new_balance) {
         // update balance
-        fetch('http://localhost:3000/update_balance', {
+        fetch('https://www.fakeconomy.com/update_balance', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -46,7 +46,7 @@ class Buy extends React.Component {
 
         // get balance
         if (this.props.isSignedin) {
-            fetch('http://localhost:3000/balance', {
+            fetch('https://www.fakeconomy.com/balance', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

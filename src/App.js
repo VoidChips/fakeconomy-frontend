@@ -33,7 +33,7 @@ class App extends Component {
   // get the users data from the server
   async componentDidMount() {
     // for usernames
-    const response = await fetch('http://localhost:3000/users');
+    const response = await fetch('https://www.fakeconomy.com/users');
     const data = await response.json();
     this.setState({ users: data });
   }
@@ -46,7 +46,7 @@ class App extends Component {
   // get login info from login screen and change to buy screen if successful
   login = (username, password) => {
     // check if user exists on the server
-    fetch('http://localhost:3000/login', {
+    fetch('https://www.fakeconomy.com/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -75,7 +75,7 @@ class App extends Component {
 
   register = (email, username, password) => {
     // register if user doesn't exist
-    fetch('http://localhost:3000/register', {
+    fetch('https://www.fakeconomy.com/register', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
