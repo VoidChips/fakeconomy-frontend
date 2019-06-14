@@ -6,17 +6,17 @@
     display: flex;
 }
 
-ul {
+#navbar ul {
     list-style-type: none;
     display: flex;
     align-items: center;
 }
 
-li {
+#navbar li {
     padding: 0 4rem;
 }
 
-li:hover {
+#navbar li:hover {
     cursor: pointer;
 }
 

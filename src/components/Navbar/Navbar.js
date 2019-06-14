@@ -53,7 +53,6 @@ const Navbar =
                         showNotLoggedInState()
                         :
                         <p onClick={signOut}>Logout</p >
-
                 }
 
             </nav >

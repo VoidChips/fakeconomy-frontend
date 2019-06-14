@@ -3,6 +3,7 @@ import './About.css';
 
 const About = ({ getUsers }) => {
     const users = getUsers();
+    // const users = ['void'];
     const UsersList = [];
     const addList = () => {
         let i = 0;

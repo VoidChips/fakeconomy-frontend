@@ -1,0 +1,19 @@
+.product {
+    text-align: center;
+    width: 20rem;
+    height: 25rem;
+    background-color: rgb(118, 252, 252);
+}
+
+.product ul {
+    display: grid;
+    list-style-type: none;
+}
+
+.product li {
+    padding: 0.7rem;
+}
+
+.product button {
+    background-color: red;
+}

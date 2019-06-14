@@ -11,10 +11,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page_section: 'about',
-      current_page_class: 'unselected',
+      page_section: 'buy',
+      current_page_class: 'selected-main',
       isSignedin: false,
-      users: []
+      users: [],
+      username: ''
     }
   }
 
@@ -60,7 +61,8 @@ class App extends Component {
       .then(result => {
         if (result.result === 'found') {
           this.setState({ isSignedin: true });
-          this.updateSection('about');
+          this.setState({username: username});
+          this.updateSection('buy');
         }
         else if (result.result === 'not found') {
           alert('This user does not exist');
@@ -82,7 +84,8 @@ class App extends Component {
       body: JSON.stringify({
         'email': email,
         'username': username,
-        'password': password
+        'password': password,
+        'balance': 200
       })
     })
       .then(response => response.json())
@@ -90,7 +93,8 @@ class App extends Component {
         if (result.result === 'success') {
           this.componentDidMount();
           this.setState({ isSignedin: true });
-          this.updateSection('about');
+          this.setState({username: username});
+          this.updateSection('buy');
         }
         else if (result.result === 'user already exists') {
           alert('User already exists. Try entering a different email or username');
@@ -103,10 +107,11 @@ class App extends Component {
 
   signOut = () => {
     this.setState({ isSignedin: false });
+    this.updateSection('about');
   }
 
   render() {
-    const { page_section, current_page_class, isSignedin } = this.state;
+    const { page_section, current_page_class, isSignedin, username } = this.state;
 
     // change section based on what page_section is
     const changeSection = () => {
@@ -114,7 +119,7 @@ class App extends Component {
         case 'about':
           return <About getUsers={this.getUsers} />
         case 'buy':
-          return <Buy />
+          return <Buy isSignedin={isSignedin} username={username}/>
         case 'sell':
           return <Sell />
         case 'login':
