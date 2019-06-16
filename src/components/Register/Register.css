@@ -4,7 +4,6 @@
     display: grid;
     justify-content: center;
     align-items: center;
-    border: 1px solid red;
 }
 
 .register {
@@ -13,9 +12,9 @@
     display: grid;
     justify-content: center;
     align-content: center;
-    border: 1px solid black;
+    border: 3px solid black;
     border-radius: 4rem;
-    background-color: red;
+    background-color: rgb(177, 3, 3);
     font-size: 1.5rem;
 }
 

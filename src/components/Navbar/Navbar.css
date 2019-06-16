@@ -1,8 +1,6 @@
 #navbar {
     width: 100%;
-    background-color: rgb(162, 243, 183);
-    /* position: fixed; */
-    height: 4rem;
+    background-color: rgb(113, 250, 150);
     display: flex;
 }
 
@@ -13,7 +11,7 @@
 }
 
 #navbar li {
-    padding: 0 4rem;
+    padding: 1rem 4rem;
 }
 
 #navbar li:hover {
@@ -21,8 +19,8 @@
 }
 
 #login-register {
-    justify-self: flex-end;
     color: rgb(241, 36, 36);
+    float: right;
 }
 
 #login-register li:hover {
@@ -35,19 +33,19 @@
 
 .unselected:hover {
     transform: scale(1.2);
-    background-color: rgb(139, 235, 164);
-    color: rgb(195, 121, 31);
+    background-color: rgb(54, 211, 95);
+    color: #e48717;
 }
 
 .selected-main {
-    background-color: rgb(67, 253, 197);
+    background-color: rgb(14, 204, 61);
 }
 
 .selected-login-or-register {
     background-color: rgb(32, 28, 22);
 }
 
-p {
+#navbar p {
     display: flex;
     align-self: center;
     padding: 0 4rem;
@@ -55,7 +53,7 @@ p {
     font-family: 'Times New Roman', Times, serif;
 }
 
-p:hover {
+#navbar p:hover {
     color: rgb(207, 26, 26);
     cursor: pointer;
 }

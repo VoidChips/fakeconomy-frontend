@@ -1,8 +1,6 @@
 body {
   top: 0;
-  background-color: #fff;
-  background-image: linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px), linear-gradient(#eee .1em, transparent .1em);
-  background-size: 100% 1.2em;
+  background: rgb(47, 47, 47);
 }
 
 h1 {
@@ -10,10 +8,11 @@ h1 {
   background-color: aliceblue;
 }
 
+h2 {
+  color: rgb(190, 190, 190);
+}
+
 .App {
   text-align: center;
 }
 
-h2 {
-  padding-top: 1rem;
-}

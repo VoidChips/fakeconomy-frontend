@@ -32,8 +32,10 @@ class App extends Component {
 
   // get the users data from the server
   async componentDidMount() {
-    // for usernames
-    const response = await fetch('https://www.fakeconomy.com/users');
+    // get usernames
+    // use http://localhost:3000/users for developing
+    // use https://www.fakeconomy.com/users for production
+    const response = await fetch('http://localhost:3000/users');
     const data = await response.json();
     this.setState({ users: data });
   }
@@ -46,7 +48,9 @@ class App extends Component {
   // get login info from login screen and change to buy screen if successful
   login = (username, password) => {
     // check if user exists on the server
-    fetch('https://www.fakeconomy.com/login', {
+    // use http://localhost:3000/login for developing
+    // use https://www.fakeconomy.com/login for production
+    fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -61,7 +65,7 @@ class App extends Component {
       .then(result => {
         if (result.result === 'found') {
           this.setState({ isSignedin: true });
-          this.setState({username: username});
+          this.setState({ username: username });
           this.updateSection('buy');
         }
         else if (result.result === 'not found') {
@@ -75,7 +79,9 @@ class App extends Component {
 
   register = (email, username, password) => {
     // register if user doesn't exist
-    fetch('https://www.fakeconomy.com/register', {
+    // use http://localhost:3000/register for developing
+    // use https://www.fakeconomy.com/register for production
+    fetch('http://localhost:3000/register', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -93,7 +99,7 @@ class App extends Component {
         if (result.result === 'success') {
           this.componentDidMount();
           this.setState({ isSignedin: true });
-          this.setState({username: username});
+          this.setState({ username: username });
           this.updateSection('buy');
         }
         else if (result.result === 'user already exists') {
@@ -119,7 +125,7 @@ class App extends Component {
         case 'about':
           return <About getUsers={this.getUsers} />
         case 'buy':
-          return <Buy isSignedin={isSignedin} username={username}/>
+          return <Buy isSignedin={isSignedin} username={username} />
         case 'sell':
           return <Sell />
         case 'login':
