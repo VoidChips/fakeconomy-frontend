@@ -35,7 +35,9 @@ class Buy extends React.Component {
     }
 
     getProducts = async () => {
-        const response = await fetch('http://localhost:3000/products');
+        // use http://localhost:3000/products for developing
+        // use https://www.fakeconomy.com/products for production
+        const response = await fetch('https://www.fakeconomy.com/products');
         const products = await response.json();
         this.setState({ productList: products });
     }
