@@ -36,7 +36,7 @@ class App extends Component {
     // get usernames
     // use http://localhost:3000/users for developing
     // use https://www.fakeconomy.com/users for production
-    const response = await fetch('http://localhost:3000/users');
+    const response = await fetch('https://www.fakeconomy.com/users');
     const data = await response.json();
     this.setState({ users: data });
     console.log(this.state.users);
@@ -47,7 +47,7 @@ class App extends Component {
     // check if user exists on the server
     // use http://localhost:3000/login for developing
     // use https://www.fakeconomy.com/login for production
-    fetch('http://localhost:3000/login', {
+    fetch('https://www.fakeconomy.com/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -80,7 +80,7 @@ class App extends Component {
     // register if user doesn't exist
     // use http://localhost:3000/register for developing
     // use https://www.fakeconomy.com/register for production
-    fetch('http://localhost:3000/register', {
+    fetch('https://www.fakeconomy.com/register', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

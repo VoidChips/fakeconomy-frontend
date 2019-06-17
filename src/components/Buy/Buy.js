@@ -20,8 +20,8 @@ class Buy extends React.Component {
     }
 
     getBalance = async () => {
-        // use http://localhost:3000/balance for developing
-        // use https://www.fakeconomy.com/balance for production
+        // use http://localhost:3000/balance/${this.props.id} for developing
+        // use https://www.fakeconomy.com/balance/${this.props.id} for production
         // fetch(`http://localhost:3000/balance/${this.props.id}`)
         //     .then(response => response.json())
         //     .then(balance => {
@@ -29,7 +29,7 @@ class Buy extends React.Component {
         //     });
 
         // async await 
-        const response = await fetch(`http://localhost:3000/balance/${this.props.id}`);
+        const response = await fetch(`https://www.fakeconomy.com/balance/${this.props.id}`);
         const balance = await response.json();
         this.setState({ balance: balance.balance });
     }
@@ -45,7 +45,7 @@ class Buy extends React.Component {
         // update balance
         // use http://localhost:3000/update_balance for developing
         // use https://www.fakeconomy.com/update_balance for production
-        fetch('http://localhost:3000/update_balance', {
+        fetch('https://www.fakeconomy.com/update_balance', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
