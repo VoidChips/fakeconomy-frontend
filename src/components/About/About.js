@@ -1,8 +1,8 @@
 import React from 'react';
 import './About.css';
 
-const About = ({ getUsers }) => {
-    const users = getUsers();
+const About = ({ users }) => {
+    // const users = getUsers();
     // const users = ['void'];
     const UsersList = [];
     const addList = () => {

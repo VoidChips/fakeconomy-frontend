@@ -15,7 +15,8 @@ class App extends Component {
       current_page_class: 'selected-main',
       isSignedin: false,
       users: [],
-      username: ''
+      username: '',
+      id: 0
     }
   }
 
@@ -38,11 +39,7 @@ class App extends Component {
     const response = await fetch('http://localhost:3000/users');
     const data = await response.json();
     this.setState({ users: data });
-  }
-
-  // give child components access to users
-  getUsers = () => {
-    return this.state.users;
+    console.log(this.state.users);
   }
 
   // get login info from login screen and change to buy screen if successful
@@ -63,9 +60,11 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(result => {
-        if (result.result === 'found') {
+        // if id is a number
+        if (!isNaN(result.id)) {
           this.setState({ isSignedin: true });
           this.setState({ username: username });
+          this.setState({id: result.id});
           this.updateSection('buy');
         }
         else if (result.result === 'not found') {
@@ -90,13 +89,12 @@ class App extends Component {
       body: JSON.stringify({
         'email': email,
         'username': username,
-        'password': password,
-        'balance': 200
+        'password': password
       })
     })
       .then(response => response.json())
       .then(result => {
-        if (result.result === 'success') {
+        if (result.result === 'new user added') {
           this.componentDidMount();
           this.setState({ isSignedin: true });
           this.setState({ username: username });
@@ -117,15 +115,15 @@ class App extends Component {
   }
 
   render() {
-    const { page_section, current_page_class, isSignedin, username } = this.state;
+    const { page_section, current_page_class, isSignedin, username, users, id } = this.state;
 
     // change section based on what page_section is
     const changeSection = () => {
       switch (page_section) {
         case 'about':
-          return <About getUsers={this.getUsers} />
+          return <About users={users} />
         case 'buy':
-          return <Buy isSignedin={isSignedin} username={username} />
+          return <Buy isSignedin={isSignedin} username={username} id={id}/>
         case 'sell':
           return <Sell />
         case 'login':
