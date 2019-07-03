@@ -5,11 +5,12 @@ import Sell from './components/Sell/Sell';
 import About from './components/About/About';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import Account from './components/Account/Account';
 import links from './links';
 import './App.css';
 // for development, use links[0]
 // for production, use links[1]
-const link = links[0];
+const link = links[1];
 
 class App extends Component {
   constructor(props) {
@@ -27,16 +28,24 @@ class App extends Component {
   // updates what part of the website the user is in
   updateSection = (section) => {
     this.setState({ page_section: section });
-    if (section !== 'login' && section !== 'register') {
-      this.setState({ current_page_class: 'selected-main' });
+
+    if (section === 'login' || section === 'register') {
+      this.setState({ current_page_class: 'selected-login-or-register' });
+    }
+    else if (section === 'account') {
+      this.setState({ current_page_class: 'selected-logged-in' });
     }
     else {
-      this.setState({ current_page_class: 'selected-login-or-register' });
+      this.setState({ current_page_class: 'selected-main' });
     }
   }
 
   // get the users data from the server
-  async componentDidMount() {
+  componentDidMount() {
+    this.getUsers();
+  }
+
+  getUsers = async () => {
     // get usernames
     const response = await fetch(`${link}/users`);
     const data = await response.json();
@@ -64,7 +73,7 @@ class App extends Component {
           this.setState({ isSignedin: true });
           this.setState({ username: username });
           this.setState({ id: result.id });
-          this.updateSection('buy');
+          this.updateSection('account');
         }
         else if (result.result === 'not found') {
           alert('This user does not exist');
@@ -91,8 +100,8 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(result => {
+        // check if the response is a number
         if (!isNaN(result.result)) {
-          // after register, login to get user id
           const id = result.result;
           const code_input = prompt('Verification code was send to your email. Enter below to verify your account. If not found in the inbox folder, try checking the spam folder.');
           this.verifyUser(id, code_input, username, password);
@@ -109,7 +118,7 @@ class App extends Component {
   verifyUser = (id, code, username, password) => {
     // check for valid verification code
     fetch(`${link}/verify`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -122,7 +131,7 @@ class App extends Component {
       .then(response => response.json())
       .then(verified => {
         if (verified.verified === 'true') {
-          this.componentDidMount();
+          this.getUsers();
           this.login(username, password);
         }
         else if (verified.verified === 'false') {
@@ -155,6 +164,8 @@ class App extends Component {
           return <Login login={this.login} />
         case 'register':
           return <Register register={this.register} />
+        case 'account':
+          return <Account id={id} link={link} signout={this.signOut} />
         default:
           return <h2>Loading...</h2>
       }

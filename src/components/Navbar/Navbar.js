@@ -15,7 +15,7 @@ const Navbar =
 
         const showNotLoggedInState = () => {
             return (
-                <ul id='login-register'>
+                <ul className='login-register'>
                     <li
                         onClick={() => updateSection('login')}
                         className={selectCSS('login')}
@@ -32,9 +32,28 @@ const Navbar =
             );
         }
 
+        const showLoggedInState = () => {
+            return (
+                <ul className='account-logout'>
+                    <li
+                        onClick={() => updateSection('account')}
+                        className={selectCSS('account')}
+                    >
+                        Account
+                    </li>
+                    <li
+                        onClick={signOut}
+                        className={selectCSS('logout')}
+                    >
+                        Logout
+                    </li>
+                </ul>
+            );
+        }
+
         return (
             <nav id='navbar' >
-                <ul id='main-content'>
+                <ul className='main-content'>
                     <li
                         onClick={() => updateSection('buy')}
                         className={selectCSS('buy')}
@@ -52,7 +71,8 @@ const Navbar =
                     !isSignedin ?
                         showNotLoggedInState()
                         :
-                        <p onClick={signOut}>Logout</p >
+                        // if logged in, show the account and logout text
+                        showLoggedInState()
                 }
 
             </nav >

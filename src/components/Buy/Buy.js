@@ -21,9 +21,9 @@ class Buy extends React.Component {
 
     getBalance = async () => {
         // async await 
-        const response = await fetch(`${this.props.link}/balance/${this.props.id}`);
-        const balance = await response.json();
-        this.setState({ balance: balance.balance });
+        const response = await fetch(`${this.props.link}/account/${this.props.id}`);
+        const info = await response.json();
+        this.setState({ balance: info.balance });
     }
 
     getProducts = async () => {

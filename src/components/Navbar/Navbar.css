@@ -24,13 +24,22 @@
     cursor: pointer;
 }
 
-#login-register {
+.login-register {
     color: rgb(241, 36, 36);
-    float: right;
 }
 
-#login-register li:hover {
-    color: rgb(207, 114, 26);
+.login-register li:hover {
+    color: rgb(241, 36, 36);
+    background-color: #e0e0e0;
+}
+
+.account-logout {
+    color: rgb(228, 145, 12);
+}
+
+.account-logout li:hover {
+    color: white;
+    background-color: rgb(38, 94, 247);
 }
 
 .unselected {
@@ -51,15 +60,6 @@
     background-color: rgb(32, 28, 22);
 }
 
-#navbar p {
-    display: flex;
-    align-self: center;
-    padding: 0 4rem;
-    color: rgb(109, 66, 13);
-    font-family: 'Times New Roman', Times, serif;
-}
-
-#navbar p:hover {
-    color: rgb(207, 26, 26);
-    cursor: pointer;
+.selected-logged-in {
+    background-color: rgb(10, 66, 248);
 }

@@ -1,0 +1,20 @@
+#account {
+    height: 80vh;
+}
+
+#account #container {
+    position: relative;
+    top: 50%;
+}
+
+#account h3 {
+    margin: 1rem;
+}
+
+
+#account button {
+    background-color: rgb(221, 24, 24);
+    border: 2px solid rgb(151, 0, 0);
+    border-radius: 2rem;
+    padding: 1rem;
+}
