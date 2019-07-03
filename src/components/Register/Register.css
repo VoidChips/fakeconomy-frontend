@@ -7,7 +7,7 @@
 }
 
 .register {
-    width: 40rem;
+    width: 645px;
     height: 60vh;
     display: grid;
     justify-content: center;
@@ -18,16 +18,43 @@
     font-size: 1.5rem;
 }
 
-.item {
-    padding: 3rem 0 2rem 0;
+.register input {
+    width: 19.5rem;
 }
 
-button {
+.register button {
     margin: 0 auto;
-    width: 10vh;
+    width: 7rem;
     height: 4vh;
     background-color: rgb(39, 12, 12);
     color: white;
-    border: 0;
+    border: none;
     border-radius: 1.2rem;
+}
+
+@media all and (max-width: 1200px) {
+    .register {
+        width: 50vw;
+    }
+    .regiser button {
+        width: 10vw;
+    }
+}
+
+@media all and (max-width: 660px) {
+    .register {
+        width: 100vw;
+    }
+    .register button {
+        width: 17vw;
+    }
+    .register input {
+        width: 50vw;
+    }
+}
+
+@media all and (max-width: 412px) {
+    .register button {
+        width: 4.5rem;
+    }
 }

@@ -6,8 +6,12 @@
     align-items: center;
 }
 
+.item {
+    padding: 3rem 0 2rem 0;
+}
+
 .login {
-    width: 40rem;
+    width: 645px;
     height: 45vh;
     display: grid;
     justify-content: center;
@@ -18,19 +22,43 @@
     font-size: 1.5rem;
 }
 
-.item {
-    padding: 3rem 0 2rem 0;
+.login input {
+    width: 19.5rem;
 }
 
-button {
+.login button {
     margin: 0 auto;
-    width: 10vh;
+    width: 6rem;
     height: 4vh;
     background-color: rgb(39, 12, 12);
     color: white;
+    border: none;
     border-radius: 1.2rem;
 }
 
-button:hover {
-    cursor: pointer;
+@media all and (max-width: 1200px) {
+    .login {
+        width: 50vw;
+    }
+    .login button {
+        width: 10vw;
+    }
+}
+
+@media all and (max-width: 660px) {
+    .login {
+        width: 100vw;
+    }
+    .login button {
+        width: 17vw;
+    }
+    .login input {
+        width: 50vw;
+    }
+}
+
+@media all and (max-width: 412px) {
+    .login button {
+        width: 4.5rem;
+    }
 }

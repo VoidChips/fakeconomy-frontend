@@ -2,8 +2,6 @@ import React from 'react';
 import './About.css';
 
 const About = ({ users }) => {
-    // const users = getUsers();
-    // const users = ['void'];
     const UsersList = [];
     const addList = () => {
         let i = 0;

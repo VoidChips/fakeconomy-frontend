@@ -1,6 +1,7 @@
 body {
   top: 0;
   background: rgb(47, 47, 47);
+  text-align: center;
 }
 
 h1 {
@@ -12,7 +13,6 @@ h2 {
   color: rgb(190, 190, 190);
 }
 
-.App {
-  text-align: center;
+button:hover {
+  cursor: pointer;
 }
-

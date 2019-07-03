@@ -4,6 +4,12 @@
     display: flex;
 }
 
+@media all and (max-width: 862px) {
+    #navbar {
+        overflow-x: scroll;
+    }
+}
+
 #navbar ul {
     list-style-type: none;
     display: flex;

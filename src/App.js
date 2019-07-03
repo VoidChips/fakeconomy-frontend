@@ -5,7 +5,11 @@ import Sell from './components/Sell/Sell';
 import About from './components/About/About';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import links from './links';
 import './App.css';
+// for development, use links[0]
+// for production, use links[1]
+const link = links[0];
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +20,7 @@ class App extends Component {
       isSignedin: false,
       users: [],
       username: '',
-      id: 0
+      id: 0,
     }
   }
 
@@ -34,20 +38,15 @@ class App extends Component {
   // get the users data from the server
   async componentDidMount() {
     // get usernames
-    // use http://localhost:3000/users for developing
-    // use https://www.fakeconomy.com/users for production
-    const response = await fetch('https://www.fakeconomy.com/users');
+    const response = await fetch(`${link}/users`);
     const data = await response.json();
     this.setState({ users: data });
-    console.log(this.state.users);
   }
 
   // get login info from login screen and change to buy screen if successful
   login = (username, password) => {
     // check if user exists on the server
-    // use http://localhost:3000/login for developing
-    // use https://www.fakeconomy.com/login for production
-    fetch('https://www.fakeconomy.com/login', {
+    fetch(`${link}/login`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -64,7 +63,7 @@ class App extends Component {
         if (!isNaN(result.id)) {
           this.setState({ isSignedin: true });
           this.setState({ username: username });
-          this.setState({id: result.id});
+          this.setState({ id: result.id });
           this.updateSection('buy');
         }
         else if (result.result === 'not found') {
@@ -78,9 +77,7 @@ class App extends Component {
 
   register = (email, username, password) => {
     // register if user doesn't exist
-    // use http://localhost:3000/register for developing
-    // use https://www.fakeconomy.com/register for production
-    fetch('https://www.fakeconomy.com/register', {
+    fetch(`${link}/register`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -94,11 +91,11 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(result => {
-        if (result.result === 'new user added') {
-          this.componentDidMount();
-          this.setState({ isSignedin: true });
-          this.setState({ username: username });
-          this.updateSection('buy');
+        if (!isNaN(result.result)) {
+          // after register, login to get user id
+          const id = result.result;
+          const code_input = prompt('Verification code was send to your email. Enter below to verify your account. If not found in the inbox folder, try checking the spam folder.');
+          this.verifyUser(id, code_input, username, password);
         }
         else if (result.result === 'user already exists') {
           alert('User already exists. Try entering a different email or username');
@@ -107,6 +104,34 @@ class App extends Component {
           alert('Something went wrong. Try again.');
         }
       });
+  }
+
+  verifyUser = (id, code, username, password) => {
+    // check for valid verification code
+    fetch(`${link}/verify`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'id': id,
+        'code': code
+      })
+    })
+      .then(response => response.json())
+      .then(verified => {
+        if (verified.verified === 'true') {
+          this.componentDidMount();
+          this.login(username, password);
+        }
+        else if (verified.verified === 'false') {
+          alert('The verification code is incorrect');
+        }
+        else {
+          alert('Something went wrong. Try again.');
+        }
+      })
   }
 
   signOut = () => {
@@ -123,7 +148,7 @@ class App extends Component {
         case 'about':
           return <About users={users} />
         case 'buy':
-          return <Buy isSignedin={isSignedin} username={username} id={id}/>
+          return <Buy isSignedin={isSignedin} username={username} id={id} link={link} />
         case 'sell':
           return <Sell />
         case 'login':
@@ -136,7 +161,7 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
+      <div>
         <h1>Fakeconomy</h1>
         <Navbar updateSection={this.updateSection} page_section={page_section} current_page_class={current_page_class} login={this.login} register={this.register} signOut={this.signOut} isSignedin={isSignedin} />
 
