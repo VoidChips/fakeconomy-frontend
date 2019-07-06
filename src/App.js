@@ -10,7 +10,7 @@ import links from './links';
 import './App.css';
 // for development, use links[0]
 // for production, use links[1]
-const link = links[1];
+const link = links[0];
 
 class App extends Component {
   constructor(props) {
@@ -172,7 +172,6 @@ class App extends Component {
   signOut = () => {
     this.setState({ isSignedin: false });
     this.updateSection('about');
-    console.log('singout');
   }
 
   render() {

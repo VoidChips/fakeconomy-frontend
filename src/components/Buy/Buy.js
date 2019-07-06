@@ -23,7 +23,9 @@ class Buy extends React.Component {
         // async await 
         const response = await fetch(`${this.props.link}/account/${this.props.id}`);
         const info = await response.json();
-        this.setState({ balance: info.balance });
+        this.setState({ balance: Number(info.balance) });
+        // must be converted to a number to ensure buying works
+        // some products can still be bought without converting
     }
 
     getProducts = async () => {

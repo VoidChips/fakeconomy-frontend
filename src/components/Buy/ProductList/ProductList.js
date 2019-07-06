@@ -16,7 +16,6 @@ const ProductList = ({ buy, productList, link }) => {
             )
             i++;
         }
-        // return <Product buy={buy} productList={productList} />
     }
     productBoxes();
     return (
