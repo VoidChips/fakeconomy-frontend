@@ -10,7 +10,7 @@ import links from './links';
 import './App.css';
 // for development, use links[0]
 // for production, use links[1]
-const link = links[1];
+const link = links[0];
 
 class App extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class App extends Component {
   }
 
   getUsers = async () => {
-    // get usernames
+    // get usernames of verified accounts
     const response = await fetch(`${link}/users`);
     const data = await response.json();
     this.setState({ users: data });
@@ -74,8 +74,16 @@ class App extends Component {
           this.setState({ username: username });
           this.setState({ id: result.id });
           this.updateSection('account');
+          this.getUsers();
         }
-        else if (result.result === 'not found') {
+        else if (result.error === 'unverified') {
+          alert('Check your email for the verification code.');
+          // send email with new code
+          this.verifyUser(username, true);
+          // verify code
+          this.verifyUser(username, false);
+        }
+        else if (result.error === 'not found') {
           alert('This user does not exist');
         }
         else {
@@ -101,13 +109,11 @@ class App extends Component {
       .then(response => response.json())
       .then(result => {
         // check if the response is a number
-        if (!isNaN(result.result)) {
-          const id = result.result;
-          const code_input = prompt('Verification code was send to your email. Enter below to verify your account. If not found in the inbox folder, try checking the spam folder.');
-          this.verifyUser(id, code_input, username, password);
+        if (result.result === 'user registered') {
+          this.login(username, password);
         }
         else if (result.result === 'user already exists') {
-          alert('User already exists. Try entering a different email or username');
+          alert('User already exists');
         }
         else {
           alert('Something went wrong. Try again.');
@@ -115,37 +121,58 @@ class App extends Component {
       });
   }
 
-  verifyUser = (id, code, username, password) => {
-    // check for valid verification code
-    fetch(`${link}/verify`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'id': id,
-        'code': code
+  verifyUser = (username, isNewCodeRequest) => {
+    let code = '';
+    if (isNewCodeRequest) {
+      code = 'reset';
+    }
+    else {
+      code = prompt('Enter the verification code below to verify your account. If not found in the inbox, try checking the spam folder.');
+    }
+
+    if (code !== '') {
+      fetch(`${link}/verify`, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'username': username,
+          // if the code is 'new code', update the existing code
+          // otherwise check for valid verification code
+          'code': code
+        })
       })
-    })
-      .then(response => response.json())
-      .then(verified => {
-        if (verified.verified === 'true') {
-          this.getUsers();
-          this.login(username, password);
-        }
-        else if (verified.verified === 'false') {
-          alert('The verification code is incorrect');
-        }
-        else {
-          alert('Something went wrong. Try again.');
-        }
-      })
+        .then(response => response.json())
+        .then(result => {
+          if (!isNewCodeRequest) {
+            if (result.verified === 'true') {
+              alert('Your account was verified!');
+            }
+            else if (result.verified === 'false') {
+              alert('The verification code was incorrect.');
+            }
+            else {
+              alert('Something went wrong. Try again.');
+            }
+          }
+          else {
+            if (result.result !== 'new code') {
+              alert('Something went wrong. Try again.');
+            }
+          }
+        })
+    }
+    else {
+      alert('The input cannot be blank.')
+    }
   }
 
   signOut = () => {
     this.setState({ isSignedin: false });
     this.updateSection('about');
+    console.log('singout');
   }
 
   render() {

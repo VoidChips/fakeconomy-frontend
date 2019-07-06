@@ -44,7 +44,6 @@ class Account extends React.Component {
                 .then(status => {
                     alert(status.status);
                     this.props.signOut();
-                    // Since the selectCSS method isn't called, deleting the user doens't automatically log the user out.
                 });
         }
     }
