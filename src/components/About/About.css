@@ -1,6 +1,7 @@
 .users {
     color: rgb(226, 17, 17);
     font-size: 1.5rem;
+    font-family: 'Inconsolata', monospace;
 }
 
 .users > li:hover {

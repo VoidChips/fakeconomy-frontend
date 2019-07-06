@@ -5,6 +5,7 @@
     background-color: rgb(118, 252, 252);
     display: grid;
     align-content: space-evenly;
+    font-family: 'Lato', sans-serif;
 }
 
 .product ul {

@@ -18,6 +18,7 @@
 
 #navbar li {
     padding: 1rem 4rem;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 #navbar li:hover {
