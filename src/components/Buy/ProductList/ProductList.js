@@ -2,7 +2,7 @@ import React from 'react';
 import Product from './Product/Product';
 import './ProductList.css';
 
-const ProductList = ({ buy, productList }) => {
+const ProductList = ({ buy, productList, link }) => {
     let products = [];
     let i = 0;
     const productBoxes = () => {
@@ -10,8 +10,9 @@ const ProductList = ({ buy, productList }) => {
             const name = product.name;
             const image = product.image;
             const price = product.price;
+            const seller = product.seller;
             products.push(
-                <Product key={i} buy={buy} name={name} image={image} price={price} />
+                <Product key={i} buy={buy} name={name} image={image} price={price} seller={seller} link={link} />
             )
             i++;
         }
