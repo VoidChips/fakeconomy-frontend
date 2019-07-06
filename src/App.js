@@ -10,7 +10,7 @@ import links from './links';
 import './App.css';
 // for development, use links[0]
 // for production, use links[1]
-const link = links[0];
+const link = links[1];
 
 class App extends Component {
   constructor(props) {
