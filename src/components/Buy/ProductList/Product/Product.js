@@ -1,14 +1,16 @@
 import React from 'react';
 import './Product.css';
 
-const Product = ({buy, name, image, price, seller, link}) => {
+const Product = ({ link, buy, name, desc, image, price, seller, inventory }) => {
     const alt_text = name + ' picture'
 
     return (
         <div className='product'>
-            <h3>{name}</h3>
             <ul>
                 <li>
+                    <h3>{name}</h3>
+                </li>
+                <li id="image">
                     <img
                         src={`${link}/image/${image}`}
                         alt={alt_text}
@@ -16,8 +18,12 @@ const Product = ({buy, name, image, price, seller, link}) => {
                         height='200'
                     />
                 </li>
+                <li id="desc">
+                    <p>{desc}</p>
+                </li>
                 <li>
                     <h4>Price: ${price}</h4>
+                    <h4>{inventory} left</h4>
                 </li>
                 <li>Seller: {seller}</li>
                 <li>

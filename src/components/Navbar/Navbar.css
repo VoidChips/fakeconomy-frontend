@@ -6,7 +6,7 @@
 
 @media all and (max-width: 862px) {
     #navbar {
-        overflow-x: scroll;
+        overflow-x: auto;
     }
 }
 

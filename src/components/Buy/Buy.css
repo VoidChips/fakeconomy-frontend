@@ -1,9 +1,3 @@
-.buy {
-    display: grid;
-    grid-template-columns: 15% 70% 15%;
-    justify-content: space-evenly;
-}
-
 .buy h2 {
     color: rgb(237, 253, 148);
     padding: 1rem;

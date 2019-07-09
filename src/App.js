@@ -16,7 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page_section: 'buy',
+      page_section: 'sell',
       current_page_class: 'selected-main',
       isSignedin: false,
       users: [],
@@ -185,7 +185,7 @@ class App extends Component {
         case 'buy':
           return <Buy isSignedin={isSignedin} username={username} id={id} link={link} />
         case 'sell':
-          return <Sell />
+          return <Sell isSignedin={isSignedin} id={id} link={link} />
         case 'login':
           return <Login login={this.login} />
         case 'register':
@@ -201,8 +201,14 @@ class App extends Component {
       <div>
         <h1>Fakeconomy</h1>
         <Navbar updateSection={this.updateSection} page_section={page_section} current_page_class={current_page_class} login={this.login} register={this.register} signOut={this.signOut} isSignedin={isSignedin} />
+        <div id="app">
+          <div></div>
+          <div>
+            {changeSection()}
+          </div>
+          <div></div>
+        </div>
 
-        {changeSection()}
       </div>
     );
   }

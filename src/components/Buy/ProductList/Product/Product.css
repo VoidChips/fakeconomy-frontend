@@ -1,24 +1,41 @@
 .product {
     text-align: center;
     width: 20rem;
-    height: 25rem;
+    height: auto;
     background-color: rgb(118, 252, 252);
     display: grid;
+    grid-template-columns: 20rem;
     align-content: space-evenly;
     font-family: 'Lato', sans-serif;
 }
 
 .product ul {
     list-style-type: none;
+    word-wrap: break-word;
+    overflow: auto;
 }
 
 .product li {
-    padding: 0.7rem;
+    margin: 0.6rem;
+    height: auto;
 }
 
 .product h3 {
     background: rgb(42, 235, 116);
     padding: 0.5rem;
+}
+
+.product #image {
+    transition: transform 0.4s;
+}
+
+.product #image:hover {
+    transform: scale(1.3);
+}
+
+.product #desc {
+    font-size: 0.7rem;
+    height: 2rem;
 }
 
 .product button {

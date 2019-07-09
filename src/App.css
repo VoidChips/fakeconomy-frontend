@@ -4,6 +4,12 @@ body {
   text-align: center;
 }
 
+#app {
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  justify-content: space-evenly;
+}
+
 h1 {
   padding: 0.2rem 0;
   background-color: aliceblue;

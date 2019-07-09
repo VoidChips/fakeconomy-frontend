@@ -8,11 +8,13 @@ const ProductList = ({ buy, productList, link }) => {
     const productBoxes = () => {
         for (let product of productList) {
             const name = product.name;
+            const desc = product.description;
             const image = product.image;
             const price = product.price;
             const seller = product.seller;
+            const inventory = product.inventory;
             products.push(
-                <Product key={i} buy={buy} name={name} image={image} price={price} seller={seller} link={link} />
+                <Product key={i} link={link} buy={buy} name={name} desc={desc} image={image} price={price} seller={seller} inventory={inventory} />
             )
             i++;
         }

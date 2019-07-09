@@ -74,12 +74,10 @@ class Buy extends React.Component {
         const { balance, productList } = this.state;
         return (
             <div className='buy'>
-                <div></div>
                 <div>
                     <h2>Balance: ${balance}</h2>
                     <ProductList buy={this.buy} productList={productList} link={this.props.link} />
                 </div>
-                <div></div>
             </div>
         );
     }

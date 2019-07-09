@@ -1,0 +1,32 @@
+#sell #container {
+    height: 80vh;
+    display: grid;
+    align-items: center;
+}
+
+.product_form {
+    height: 40vh;
+    border-radius: 4rem;
+    background-color: rgb(255, 102, 0);
+    display: grid;
+    align-content: space-evenly;
+}
+
+.product_form label {
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+}
+
+.product_form input {
+    background-color: rgb(211, 211, 211);
+    margin-left: 2rem;
+}
+
+.product_form #desc {
+    width: 30vw;
+    height: 13vh;
+}
+
+.product_form button {
+    margin: 0 1.4rem;
+}
