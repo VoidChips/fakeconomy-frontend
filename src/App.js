@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 import Navbar from './components/Navbar/Navbar';
 import Buy from './components/Buy/Buy';
 import Sell from './components/Sell/Sell';
@@ -10,7 +11,7 @@ import links from './links';
 import './App.css';
 // for development, use links[0]
 // for production, use links[1]
-const link = links[0];
+const link = links[1];
 
 class App extends Component {
   constructor(props) {
@@ -42,10 +43,7 @@ class App extends Component {
 
   // get the users data from the server
   componentDidMount() {
-    this.getUsers();
-  }
-
-  componentWillUpdate() {
+    ReactGA.initialize('UA-141723318-1');
     this.getUsers();
   }
 
@@ -175,6 +173,7 @@ class App extends Component {
 
   signOut = () => {
     this.setState({ isSignedin: false });
+    this.getUsers();
     this.updateSection('about');
   }
 
