@@ -32,7 +32,7 @@ class Login extends React.Component {
     render() {
         return (
             <div className='container'>
-                <div className='login'>
+                <div className='login form'>
                     <div className='item'>
                         Username: <br></br>
                         <input
@@ -44,7 +44,7 @@ class Login extends React.Component {
                     <div className='item'>
                         Password: <br></br>
                         <input
-                            type='text'
+                            type='password'
                             name='password'
                             onChange={this.handlePasswordChange}
                         />

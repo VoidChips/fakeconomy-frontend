@@ -41,9 +41,11 @@ class Account extends React.Component {
                 }
             })
                 .then(response => response.json())
-                .then(status => {
-                    alert(status.status);
-                    this.props.signOut();
+                .then(result => {
+                    if (result.status === 'deleted') {
+                        alert('Account deleted');
+                        this.props.signOut();
+                    }
                 });
         }
     }

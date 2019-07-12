@@ -100,8 +100,8 @@ class Sell extends React.Component {
                     .then(response => response.json())
                     .then(result => {
                         if (result.result === 'product created') {
-                            alert('product was created');
                             this.submitImage(link, image);
+                            this.getUserProducts();
                         }
                         else if (result.result === 'product already exists') {
                             alert('The product with that name already exists. Choose a different name.');
@@ -121,6 +121,29 @@ class Sell extends React.Component {
         }
     }
 
+    deleteProduct = (name, image) => {
+        let isDelete = window.confirm('Are you sure?');
+        if (isDelete) {
+            fetch(`${this.props.link}/delete_product`, {
+                method: 'delete',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'product_name': name,
+                    'image': image
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.deleted === 'true') {
+                        this.getUserProducts();
+                    }
+                })
+        }
+    }
+
     getUserProducts = async () => {
         const { link, id } = this.props;
         const response = await fetch(`${link}/products/${id}/all`);
@@ -133,46 +156,56 @@ class Sell extends React.Component {
         const { productList } = this.state;
         let products = [];
         let i = 0;
-        for (let product of productList) {
-            const { name, description, image, price, inventory } = product;
-            products.push(
-                <tr key={i}>
-                    <td>{name}</td>
-                    <td>{description}</td>
-                    <td>
-                        <img src={`${link}/image/${image}`} alt={image} width="120" height="120" />
-                    </td>
-                    <td>${price}</td>
-                    <td>{inventory}</td>
-                </tr>
+        if (productList.length) {
+            for (let product of productList) {
+                const { name, description, image, price, inventory } = product;
+                products.push(
+                    <tr key={i}>
+                        <td>{name}</td>
+                        <td>{description}</td>
+                        <td>
+                            <img src={`${link}/image/${image}`} alt={image} width="120" height="120" />
+                        </td>
+                        <td>${price}</td>
+                        <td>{inventory}</td>
+                        <td>
+                            <button onClick={() => this.deleteProduct(name, image)}>Delete</button>
+                        </td>
+                    </tr>
+                );
+                i++;
+            }
+            // return products;
+            return (
+                <div>
+                    <h2>My Products</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>Price</th>
+                                <th>Inventory</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>{products}</tbody>
+                    </table>
+                </div>
             );
-            i++;
         }
-        // return products;
-        return (
-            <div>
-                <h2>My Products</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Description</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Inventory</th>
-                        </tr>
-                    </thead>
-                    <tbody>{products}</tbody>
-                </table>
-            </div>
-        );
+        else {
+            return <p>No Products</p>
+        }
+
     }
 
     render() {
         return (
             <div id="sell">
                 <div id="container">
-                    <form className="product_form">
+                    <form className="form">
                         <div>
                             <label>
                                 Fake product name
@@ -180,7 +213,7 @@ class Sell extends React.Component {
                             </label>
                         </div>
                         <div>
-                            <textarea type="text" id="desc" name="desc" placeholder="Desciption: 300 characters limit" onChange={this.handleDescChange} />
+                            <textarea type="text" id="desc" name="desc" placeholder="Description: 300 characters limit" onChange={this.handleDescChange} />
                         </div>
                         <div>
                             <label>

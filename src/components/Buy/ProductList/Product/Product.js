@@ -27,7 +27,7 @@ const Product = ({ link, buy, name, desc, image, price, seller, inventory }) => 
                 </li>
                 <li>Seller: {seller}</li>
                 <li>
-                    <button onClick={() => buy(price)}>Buy</button>
+                    <button onClick={() => buy(price, name, seller)}>Buy</button>
                 </li>
 
             </ul>

@@ -13,7 +13,7 @@ class Buy extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         // get balance if signed in
         if (this.props.isSignedin) {
             this.getBalance();
@@ -45,32 +45,46 @@ class Buy extends React.Component {
         this.setState({ productList: products });
     }
 
-    // called whenever user buys something
-    updateBalance = price => {
-        // update balance
-        fetch(`${this.props.link}/update_balance`, {
-            method: 'POST',
+    sell = (price, name, seller) => {
+        fetch(`${this.props.link}/sell`, {
+            method: 'put',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'id': this.props.id,
-                'price': price
+                'price': price,
+                'name': name,
+                'seller': seller
             })
         })
-            .then(response => response.json())
-            .then(result => {
-                if (result.result === 'balance updated') {
-                    // get balance after balance is updated since getBalance() will be called before updating balance otherwise
-                    this.getBalance();
-                }
-            })
+            .catch(err => console.log(err));
     }
 
-    buy = (price) => {
+    buy = (price, name, seller) => {
         if (this.state.balance > price) {
-            this.updateBalance(price.toString());
+            // update balance
+            fetch(`${this.props.link}/buy`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'id': this.props.id,
+                    'price': price
+                })
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.result === 'balance updated') {
+                        // get balance after balance is updated since getBalance() will be called before updating balance otherwise
+                        this.getBalance();
+                        // cannot use componentDidMount since it will keep getting called
+                        this.getProducts();
+                        this.sell(price, name, seller);
+                    }
+                })
         }
         else if (!this.props.isSignedin) {
             alert(`You're not logged in.`);
@@ -86,13 +100,15 @@ class Buy extends React.Component {
         return (
             <div className="buy">
                 <h2>Balance: ${balance}</h2>
-                <input type="text" onChange={this.handleInputChange} />
-                <select
-                    onChange={this.handleInputTypeChange}
-                >
-                    <option value="all">All</option>
-                    <option value="seller">Seller</option>
-                </select>
+                <div id="search">
+                    <input type="text" onChange={this.handleInputChange} placeholder="Search" />
+                    <select
+                        onChange={this.handleInputTypeChange}
+                    >
+                        <option value="all">All</option>
+                        <option value="seller">Seller</option>
+                    </select>
+                </div>
                 <ProductList buy={this.buy} input={input} type={type} productList={productList} link={this.props.link} />
             </div>
         );

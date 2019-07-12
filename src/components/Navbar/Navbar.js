@@ -42,7 +42,7 @@ const Navbar =
                         Account
                     </li>
                     <li
-                        onClick={signOut}
+                        onClick={() => signOut()}
                         className={selectCSS('logout')}
                     >
                         Logout

@@ -1,5 +1,21 @@
+.buy {
+    display: grid;
+    grid-gap: 1.5rem;
+}
+
 .buy h2 {
     color: rgb(237, 253, 148);
-    padding: 1rem;
+    padding-top: 1rem;
+    font-size: 1.8rem;
     font-family: 'Abel', sans-serif;
+}
+
+.buy input {
+    width: 30rem;
+    color: rgb(214, 0, 0);
+    background-color: rgb(20, 13, 13);
+}
+
+.buy select {
+    margin-left: 2rem;
 }

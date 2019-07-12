@@ -37,7 +37,7 @@ class Register extends React.Component {
     render() {
         return (
             <div className='container'>
-                <div className='register'>
+                <div className='register form'>
                     <div className='item'>
                         Email: <br></br>
                         <input
@@ -57,7 +57,7 @@ class Register extends React.Component {
                     <div className='item'>
                         Password: <br></br>
                         <input
-                            type='text'
+                            type='password'
                             name='password'
                             onChange={this.handlePasswordChange}
                         />

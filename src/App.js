@@ -45,6 +45,10 @@ class App extends Component {
     this.getUsers();
   }
 
+  componentWillUpdate() {
+    this.getUsers();
+  }
+
   getUsers = async () => {
     // get usernames of verified accounts
     const response = await fetch(`${link}/users`);
@@ -191,7 +195,7 @@ class App extends Component {
         case 'register':
           return <Register register={this.register} />
         case 'account':
-          return <Account id={id} link={link} signout={this.signOut} />
+          return <Account id={id} link={link} signOut={this.signOut} />
         default:
           return <h2>Loading...</h2>
       }

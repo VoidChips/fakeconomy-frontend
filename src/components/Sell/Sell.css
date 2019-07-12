@@ -3,36 +3,31 @@
 }
 
 #sell #container {
-    height: 80vh;
+    height: 35rem;
     display: grid;
     align-items: center;
     color: black;
 }
 
-.product_form {
-    height: 40vh;
-    border-radius: 4rem;
-    background-color: rgb(255, 102, 0);
-    display: grid;
-    align-content: space-evenly;
+#sell .form{
+    height: 30rem;
 }
 
-.product_form label {
+#sell label {
     font-weight: bold;
     font-family: 'Lato', sans-serif;
 }
 
-.product_form input {
-    background-color: rgb(211, 211, 211);
+#sell input {
     margin-left: 2rem;
 }
 
-.product_form #desc {
+#sell #desc {
     width: 30vw;
     height: 13vh;
 }
 
-.product_form button {
+#sell button {
     margin: 0 1.4rem;
 }
 
