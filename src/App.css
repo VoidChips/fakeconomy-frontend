@@ -4,7 +4,7 @@ body {
   text-align: center;
 }
 
-#app {
+#content {
   display: grid;
   grid-template-columns: 15% 70% 15%;
   justify-content: space-evenly;

@@ -10,13 +10,13 @@ import links from './links';
 import './App.css';
 // for development, use links[0]
 // for production, use links[1]
-const link = links[1];
+const link = links[0];
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page_section: 'sell',
+      page_section: 'buy',
       current_page_class: 'selected-main',
       isSignedin: false,
       users: [],
@@ -73,7 +73,7 @@ class App extends Component {
           this.setState({ isSignedin: true });
           this.setState({ username: username });
           this.setState({ id: result.id });
-          this.updateSection('account');
+          this.updateSection('buy');
           this.getUsers();
         }
         else if (result.error === 'unverified') {
@@ -201,14 +201,13 @@ class App extends Component {
       <div>
         <h1>Fakeconomy</h1>
         <Navbar updateSection={this.updateSection} page_section={page_section} current_page_class={current_page_class} login={this.login} register={this.register} signOut={this.signOut} isSignedin={isSignedin} />
-        <div id="app">
+        <div id="content">
           <div></div>
           <div>
             {changeSection()}
           </div>
           <div></div>
         </div>
-
       </div>
     );
   }

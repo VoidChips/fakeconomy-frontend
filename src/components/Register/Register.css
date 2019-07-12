@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+.register .item {
+    padding: 3rem 0 2rem 0;
+}
+
 .register {
     width: 645px;
     height: 60vh;

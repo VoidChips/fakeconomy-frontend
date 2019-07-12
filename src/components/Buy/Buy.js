@@ -7,16 +7,26 @@ class Buy extends React.Component {
         super(props);
         this.state = {
             balance: 0,
+            input: '',
+            type: 'all',
             productList: []
         }
     }
 
     componentDidMount() {
-        // get balance
+        // get balance if signed in
         if (this.props.isSignedin) {
             this.getBalance();
         }
         this.getProducts();
+    }
+
+    handleInputChange = (event) => {
+        this.setState({ input: event.target.value });
+    }
+
+    handleInputTypeChange = (event) => {
+        this.setState({ type: event.target.value });
     }
 
     getBalance = async () => {
@@ -29,7 +39,8 @@ class Buy extends React.Component {
     }
 
     getProducts = async () => {
-        const response = await fetch(`${this.props.link}/products`);
+        // get all products
+        const response = await fetch(`${this.props.link}/products/${0}/all`);
         const products = await response.json();
         this.setState({ productList: products });
     }
@@ -71,13 +82,18 @@ class Buy extends React.Component {
     }
 
     render() {
-        const { balance, productList } = this.state;
+        const { balance, input, type, productList } = this.state;
         return (
-            <div className='buy'>
-                <div>
-                    <h2>Balance: ${balance}</h2>
-                    <ProductList buy={this.buy} productList={productList} link={this.props.link} />
-                </div>
+            <div className="buy">
+                <h2>Balance: ${balance}</h2>
+                <input type="text" onChange={this.handleInputChange} />
+                <select
+                    onChange={this.handleInputTypeChange}
+                >
+                    <option value="all">All</option>
+                    <option value="seller">Seller</option>
+                </select>
+                <ProductList buy={this.buy} input={input} type={type} productList={productList} link={this.props.link} />
             </div>
         );
     }

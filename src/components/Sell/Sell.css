@@ -1,7 +1,12 @@
+#sell {
+    color: orange;
+}
+
 #sell #container {
     height: 80vh;
     display: grid;
     align-items: center;
+    color: black;
 }
 
 .product_form {
@@ -29,4 +34,22 @@
 
 .product_form button {
     margin: 0 1.4rem;
+}
+
+#sell h2 {
+    margin-bottom: 2rem;
+}
+
+#sell table {
+    width: 100%;
+    color: rgb(223, 223, 223);
+}
+
+#sell th {
+    color: rgb(186, 189, 0);
+    border: 3px solid rgb(185, 5, 5);
+}
+
+#sell td {
+    border: 3px solid rgb(230, 106, 6);
 }

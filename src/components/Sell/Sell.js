@@ -9,7 +9,15 @@ class Sell extends React.Component {
             desc: '',
             image: '',
             price: 0,
-            inventory: 0
+            inventory: 0,
+            productList: []
+        }
+    }
+
+    componentDidMount() {
+        const { isSignedin } = this.props;
+        if (isSignedin) {
+            this.getUserProducts();
         }
     }
 
@@ -113,6 +121,53 @@ class Sell extends React.Component {
         }
     }
 
+    getUserProducts = async () => {
+        const { link, id } = this.props;
+        const response = await fetch(`${link}/products/${id}/all`);
+        const products = await response.json();
+        this.setState({ productList: products });
+    }
+
+    displayUserProducts = () => {
+        const { link } = this.props;
+        const { productList } = this.state;
+        let products = [];
+        let i = 0;
+        for (let product of productList) {
+            const { name, description, image, price, inventory } = product;
+            products.push(
+                <tr key={i}>
+                    <td>{name}</td>
+                    <td>{description}</td>
+                    <td>
+                        <img src={`${link}/image/${image}`} alt={image} width="120" height="120" />
+                    </td>
+                    <td>${price}</td>
+                    <td>{inventory}</td>
+                </tr>
+            );
+            i++;
+        }
+        // return products;
+        return (
+            <div>
+                <h2>My Products</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Description</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Inventory</th>
+                        </tr>
+                    </thead>
+                    <tbody>{products}</tbody>
+                </table>
+            </div>
+        );
+    }
+
     render() {
         return (
             <div id="sell">
@@ -125,7 +180,7 @@ class Sell extends React.Component {
                             </label>
                         </div>
                         <div>
-                            <textarea type="text" id="desc" name="desc" placeholder="300 characters limit" onChange={this.handleDescChange} />
+                            <textarea type="text" id="desc" name="desc" placeholder="Desciption: 300 characters limit" onChange={this.handleDescChange} />
                         </div>
                         <div>
                             <label>
@@ -159,6 +214,7 @@ class Sell extends React.Component {
                         </div>
                     </form>
                 </div>
+                {this.props.isSignedin ? this.displayUserProducts() : <h2>Log in to see your products</h2>}
             </div>
         );
     }
