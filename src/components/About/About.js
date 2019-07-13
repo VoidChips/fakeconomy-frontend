@@ -13,18 +13,21 @@ const About = ({ users }) => {
     addList();
     return (
         <div id="about">
-            <h2>This website is still in development.</h2>
-            <h3>Contact information: voidchips@gmail.com</h3>
-            <br></br>
+            <div>
+                <h2>This website is still in development.</h2>
+                <h4>Contact information: voidchips@gmail.com</h4>
+            </div>
+
             <h2>Buy fake products with fake money or make them yourself! You get fake $2000 when you create your account. Sell fake products to make more fake money.</h2>
-            <br></br>
+
             <h5>Disclaimer: No real currency is involved with this website. Just pretend to buy or sell.</h5>
-            <br></br>
-            <h2>Users: </h2>
-            <br></br>
-            <ul className='users'>
-                {UsersList}
-            </ul>
+            <div>
+                <h2>Users: </h2>
+                <br></br>
+                <ul className='users'>
+                    {UsersList}
+                </ul>
+            </div>
         </div>
     );
 }

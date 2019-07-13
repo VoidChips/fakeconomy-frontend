@@ -1,5 +1,9 @@
 #about {
     color: rgb(233, 133, 18);
+    font-family: 'Lato', sans-serif;
+    display: grid;
+    grid-row-gap: 2rem;
+    margin-top: 2rem;
 }
 
 .users {

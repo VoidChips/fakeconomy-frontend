@@ -101,7 +101,10 @@ class Sell extends React.Component {
                     .then(result => {
                         if (result.result === 'product created') {
                             this.submitImage(link, image);
-                            this.getUserProducts();
+                            // wait for product image to be uploaded to the server so that the image link will work
+                            setTimeout(() => {
+                                this.getUserProducts();
+                            }, 1000);
                         }
                         else if (result.result === 'product already exists') {
                             alert('The product with that name already exists. Choose a different name.');

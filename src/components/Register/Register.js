@@ -41,7 +41,7 @@ class Register extends React.Component {
                     <div className='item'>
                         Email: <br></br>
                         <input
-                            type='text'
+                            type='email'
                             name='email'
                             onChange={this.handleEmailChange}
                         />

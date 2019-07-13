@@ -33,7 +33,7 @@ class Account extends React.Component {
     deleteAccount = () => {
         let isDelete = window.confirm('Are you sure?');
         if (isDelete) {
-            fetch(`${this.props.link}/delete_user/${this.props.id}`, {
+            fetch(`${this.props.link}/delete_user/${this.state.account_info.username}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
