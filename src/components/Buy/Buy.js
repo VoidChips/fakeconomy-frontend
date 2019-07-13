@@ -58,6 +58,12 @@ class Buy extends React.Component {
                 'seller': seller
             })
         })
+            .then(response => response.json())
+            .then(result => {
+                if (result.balance === 'updated') {
+                    this.getProducts();
+                }
+            })
             .catch(err => console.log(err));
     }
 
@@ -81,7 +87,6 @@ class Buy extends React.Component {
                         // get balance after balance is updated since getBalance() will be called before updating balance otherwise
                         this.getBalance();
                         // cannot use componentDidMount since it will keep getting called
-                        this.getProducts();
                         this.sell(price, name, seller);
                     }
                 })
