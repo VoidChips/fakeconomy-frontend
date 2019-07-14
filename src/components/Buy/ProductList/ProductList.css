@@ -4,3 +4,9 @@
     justify-content: center;
     grid-gap: 3rem;
 }
+
+@media all and (max-width: 915px) {
+    .product-list {
+        margin: 0 auto;
+    }
+}

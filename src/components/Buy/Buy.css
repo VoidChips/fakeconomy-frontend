@@ -21,3 +21,10 @@
     color: rgb(214, 0, 0);
     background-color: rgb(20, 13, 13);
 }
+
+@media all and (max-width: 660px) {
+    .buy #search {
+        grid-template-columns: 10rem 4rem;
+        margin: 0 auto;
+    }
+}

@@ -45,6 +45,12 @@ class App extends Component {
   componentDidMount() {
     ReactGA.initialize('UA-141723318-1');
     this.getUsers();
+    // if the user didn't log out, login using cookies
+    if (this.getCookie('username').search('null') === -1 && this.getCookie('id'.search('null') === -1)) {
+      this.setState({isSignedin: true});
+      this.setState({id: this.getCookie('id')});
+      this.setState({username: Number(this.getCookie('username'))});
+    }
   }
 
   getUsers = async () => {
@@ -52,6 +58,48 @@ class App extends Component {
     const response = await fetch(`${link}/users`);
     const data = await response.json();
     this.setState({ users: data });
+  }
+
+  setCookie = (name, value) => {
+    // get date
+    const date = new Date();
+    const year = date.getUTCFullYear();
+    // the year the cookie will expire
+    const nextYear = year + 1;
+    // convert date to string
+    let dateString = date.toDateString();
+    const weekDate = dateString.substr(0, 3);
+    const month = dateString.substr(4, 3);
+    const dayOfMonth = dateString.substr(8, 2);
+    // modify date to cookie expire date format
+    dateString = dateString.replace(weekDate, `${weekDate},`);
+    dateString = dateString.replace(dayOfMonth, month);
+    dateString = dateString.replace(month, dayOfMonth);
+    dateString = dateString.replace(year, nextYear);
+    const expireDate = `${dateString} 23:59:59 GMT`;
+    document.cookie = `${name}=${value} expires=${expireDate}`;
+  }
+
+  getCookie = (name) => {
+    const cookie = document.cookie;
+    // get the index where the name starts
+    const indexStart = cookie.search(name);
+    // get the index where the cookie ends
+    const indexEnd = cookie.substr(indexStart).search('expires=');
+    let value = '';
+    // the first cookie won't have indexEnd
+    if (indexEnd !== -1) {
+      value = cookie.substr(indexStart, indexEnd);
+    }
+    else {
+      value = cookie.substr(indexStart);
+    }
+    // return the cookie value
+    return value.replace(`${name}=`, '');
+  }
+
+  deleteCookie = (name, username) => {
+    document.cookie = `${name}=null expires=Mon, 01 Jan 1900 23:59:59 GMT`;
   }
 
   // get login info from login screen and change to buy screen if successful
@@ -75,6 +123,8 @@ class App extends Component {
           this.setState({ isSignedin: true });
           this.setState({ username: username });
           this.setState({ id: result.id });
+          this.setCookie('id', this.state.id);
+          this.setCookie('username', username);
           this.updateSection('buy');
           this.getUsers();
         }
@@ -174,6 +224,11 @@ class App extends Component {
   signOut = () => {
     this.setState({ isSignedin: false });
     this.getUsers();
+    // cookies turn invalid so the user have to login again
+    this.deleteCookie('id');
+    this.deleteCookie('username');
+    this.setState({id: 0});
+    this.setState({username: ''});
     this.updateSection('about');
   }
 
