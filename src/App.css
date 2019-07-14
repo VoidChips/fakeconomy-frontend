@@ -43,3 +43,9 @@ textarea {
   border-bottom: 1px solid white;
   border-right: 1px solid white;
 }
+
+@media all and (max-width: 447px) {
+  #content {
+    grid-template-columns: 0 1fr 0;
+  }
+}

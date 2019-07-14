@@ -22,7 +22,7 @@ const Product = ({ link, buy, name, desc, image, price, seller, inventory }) => 
                     <p>{desc}</p>
                 </li>
                 <li>
-                    <h4>Price: ${price}</h4>
+                    <h4 className='price'>Price: ${price}</h4>
                     <h4>{inventory} left</h4>
                 </li>
                 <li>Seller: {seller}</li>
