@@ -44,6 +44,7 @@ class App extends Component {
   // get the users data from the server
   componentDidMount() {
     ReactGA.initialize('UA-141723318-1');
+    ReactGA.pageview('window.location.pathname');
     this.getUsers();
     // if the user didn't log out, login using cookies
     if (this.getCookie('username').search('null') === -1 && this.getCookie('id'.search('null') === -1)) {
@@ -136,7 +137,7 @@ class App extends Component {
           this.verifyUser(username, false);
         }
         else if (result.error === 'not found') {
-          alert('This user does not exist');
+          alert('Invalid information.');
         }
         else {
           alert('Something went wrong. Try again.')

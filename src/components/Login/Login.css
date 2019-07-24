@@ -16,7 +16,6 @@
     display: grid;
     justify-content: center;
     align-content: center;
-    border: 3px solid black;
     border-radius: 4rem;
     background-color: rgb(177, 3, 3);
     font-size: 1.5rem;

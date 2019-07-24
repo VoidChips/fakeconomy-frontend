@@ -7,7 +7,9 @@ class Register extends React.Component {
         this.state = {
             email: '',
             username: '',
-            password: ''
+            password: '',
+            hintCSS: 'hint',
+            hintContentCSS: 'hint-content hide'
         }
     }
 
@@ -26,11 +28,39 @@ class Register extends React.Component {
     submitRegisterInfo = () => {
         const { email, username, password } = this.state;
         const { register } = this.props;
+        const numChars = '0123456789';
+        const specialChars = `~\`!@#$%^&*()-_=+[]{}\\;:'",.<>/? `;
+        const foundChar = arr => {
+            for (let char of arr) {
+                if (password.includes(char)) {
+                    return true;
+                }
+            }
+            return false;
+        }
         if (email === '' || username === '' || password === '') {
             alert('Do not leave any fields blank.');
         }
+        else if (email.search('@') === -1) {
+            alert('Email address is required.');
+        }
+        else if (password.length < 8 || !(foundChar(numChars)) || !foundChar(specialChars)) {
+            alert('Password length must be 8 or more. At least one number and special character is required.');
+        }
         else {
             register(email, username, password);
+        }
+    }
+
+    handleHintClick = () => {
+        const { hintCSS } = this.state;
+        if (hintCSS === 'hint') {
+            this.setState({ hintCSS: 'hint hide' });
+            this.setState({ hintContentCSS: 'hint-content' });
+        }
+        else {
+            this.setState({ hintCSS: 'hint' });
+            this.setState({ hintContentCSS: 'hint-content hide' });
         }
     }
 
@@ -43,6 +73,7 @@ class Register extends React.Component {
                         <input
                             type='email'
                             name='email'
+                            required
                             onChange={this.handleEmailChange}
                         />
                     </div>
@@ -51,6 +82,7 @@ class Register extends React.Component {
                         <input
                             type='text'
                             name='username'
+                            required
                             onChange={this.handleUsernameChange}
                         />
                     </div>
@@ -59,8 +91,13 @@ class Register extends React.Component {
                         <input
                             type='password'
                             name='password'
+                            minLength='8'
+                            required
                             onChange={this.handlePasswordChange}
                         />
+                        <br></br>
+                        <div className={this.state.hintCSS} onClick={() => this.handleHintClick()}>?</div>
+                        <p className={this.state.hintContentCSS} onClick={() => this.handleHintClick()}>Password must be at least 8 characters long and include at least one number and special symbol.</p>
                     </div>
                     <button onClick={() => this.submitRegisterInfo()}>Register</button>
                 </div>
