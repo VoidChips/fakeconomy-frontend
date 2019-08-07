@@ -31,7 +31,7 @@ class Buy extends React.Component {
 
     getBalance = async () => {
         // async await 
-        const response = await fetch(`${this.props.link}/account/${this.props.id}`);
+        const response = await fetch(`${this.props.api}/account/${this.props.id}`);
         const info = await response.json();
         this.setState({ balance: Number(info.balance) });
         // must be converted to a number to ensure buying works
@@ -40,37 +40,61 @@ class Buy extends React.Component {
 
     getProducts = async () => {
         // get all products
-        const response = await fetch(`${this.props.link}/products/${0}/all`);
+        const response = await fetch(`${this.props.api}/products/${0}/all`);
         const products = await response.json();
         this.setState({ productList: products });
     }
 
-    sell = (price, name, seller) => {
-        fetch(`${this.props.link}/sell`, {
+    updateInventory = name => {
+        fetch(`${this.props.api}/update_inventory`, {
             method: 'put',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'price': price,
-                'name': name,
-                'seller': seller
+                'name': name
             })
         })
             .then(response => response.json())
             .then(result => {
-                if (result.balance === 'updated') {
+                if (result.inventory === 'updated') {
                     this.getProducts();
                 }
             })
             .catch(err => console.log(err));
     }
 
+    // similar to the buy function but can update anyone's balance
+    updateBalance = (username, amount) => {
+        fetch(`${this.props.api}/update_balance`, {
+            method: 'put',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'username': username,
+                'amount': amount
+            })
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.balance !== 'updated') {
+                    alert(`${username} did not get $${amount}.`);
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
     buy = (price, name, seller) => {
-        if (this.state.balance > price) {
+        // prevents user buying own product
+        if (this.props.username === seller) {
+            alert('You cannot buy your own product...');
+        }
+        else if (this.state.balance > price) {
             // update balance
-            fetch(`${this.props.link}/buy`, {
+            fetch(`${this.props.api}/buy`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -87,7 +111,8 @@ class Buy extends React.Component {
                         // get balance after balance is updated since getBalance() will be called before updating balance otherwise
                         this.getBalance();
                         // cannot use componentDidMount since it will keep getting called
-                        this.sell(price, name, seller);
+                        this.updateInventory(price, name, seller);
+                        this.updateBalance(seller, price);
                     }
                 })
         }
@@ -114,7 +139,7 @@ class Buy extends React.Component {
                         <option value="seller">Seller</option>
                     </select>
                 </div>
-                <ProductList buy={this.buy} input={input} type={type} productList={productList} link={this.props.link} />
+                <ProductList buy={this.buy} input={input} type={type} productList={productList} api={this.props.api} />
             </div>
         );
     }

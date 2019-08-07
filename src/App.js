@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import ReactGA from 'react-ga';
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Buy from './components/Buy/Buy';
 import Sell from './components/Sell/Sell';
@@ -7,17 +8,20 @@ import About from './components/About/About';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Account from './components/Account/Account';
-import links from './links';
+import apis from './links';
 import './App.css';
 // for development, use links[0]
 // for production, use links[1]
-const link = links[1];
+const api = apis[1];
+// google analytics tracking
+ReactGA.initialize('UA-141723318-1');
+ReactGA.pageview('window.location.pathname + window.location.search');
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page_section: 'buy',
+      page_section: window.location.pathname,
       current_page_class: 'selected-main',
       isSignedin: false,
       users: [],
@@ -30,10 +34,10 @@ class App extends Component {
   updateSection = (section) => {
     this.setState({ page_section: section });
 
-    if (section === 'login' || section === 'register') {
+    if (section === '/login' || section === '/register') {
       this.setState({ current_page_class: 'selected-login-or-register' });
     }
-    else if (section === 'account') {
+    else if (section === '/account') {
       this.setState({ current_page_class: 'selected-logged-in' });
     }
     else {
@@ -43,20 +47,20 @@ class App extends Component {
 
   // get the users data from the server
   componentDidMount() {
-    ReactGA.initialize('UA-141723318-1');
-    ReactGA.pageview('window.location.pathname');
     this.getUsers();
     // if the user didn't log out, login using cookies
     if (this.getCookie('username').search('null') === -1 && this.getCookie('id'.search('null') === -1)) {
-      this.setState({isSignedin: true});
-      this.setState({id: this.getCookie('id')});
-      this.setState({username: Number(this.getCookie('username'))});
+      this.setState({ isSignedin: true });
+      this.setState({ id: this.getCookie('id') });
+      this.setState({ username: Number(this.getCookie('username')) });
     }
+    // selects corrects css when the initial current_page_class is not selected-main
+    this.updateSection(window.location.pathname);
   }
 
   getUsers = async () => {
     // get usernames of verified accounts
-    const response = await fetch(`${link}/users`);
+    const response = await fetch(`${api}/users`);
     const data = await response.json();
     this.setState({ users: data });
   }
@@ -99,14 +103,23 @@ class App extends Component {
     return value.replace(`${name}=`, '');
   }
 
-  deleteCookie = (name, username) => {
+  deleteCookie = (name) => {
+    // make the cookie expire
     document.cookie = `${name}=null expires=Mon, 01 Jan 1900 23:59:59 GMT`;
+  }
+
+  // listens to enter key
+  keyPressed = (event, key) => {
+    if (event.key === key) {
+      return true;
+    }
+    return false;
   }
 
   // get login info from login screen and change to buy screen if successful
   login = (username, password) => {
     // check if user exists on the server
-    fetch(`${link}/login`, {
+    fetch(`${api}/login`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -126,7 +139,7 @@ class App extends Component {
           this.setState({ id: result.id });
           this.setCookie('id', this.state.id);
           this.setCookie('username', username);
-          this.updateSection('buy');
+          this.updateSection('/');
           this.getUsers();
         }
         else if (result.error === 'unverified') {
@@ -137,17 +150,17 @@ class App extends Component {
           this.verifyUser(username, false);
         }
         else if (result.error === 'not found') {
-          alert('Invalid information.');
+          alert('Invalid information. Try again');
         }
         else {
-          alert('Something went wrong. Try again.')
+          alert('Invalid information. Try again.')
         }
       });
   }
 
   register = (email, username, password) => {
     // register if user doesn't exist
-    fetch(`${link}/register`, {
+    fetch(`${api}/register`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -184,7 +197,7 @@ class App extends Component {
     }
 
     if (code !== '') {
-      fetch(`${link}/verify`, {
+      fetch(`${api}/verify`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -228,9 +241,9 @@ class App extends Component {
     // cookies turn invalid so the user have to login again
     this.deleteCookie('id');
     this.deleteCookie('username');
-    this.setState({id: 0});
-    this.setState({username: ''});
-    this.updateSection('about');
+    this.setState({ id: 0 });
+    this.setState({ username: '' });
+    this.updateSection('/about');
   }
 
   render() {
@@ -239,18 +252,18 @@ class App extends Component {
     // change section based on what page_section is
     const changeSection = () => {
       switch (page_section) {
-        case 'about':
+        case '/':
+          return <Buy isSignedin={isSignedin} username={username} id={id} api={api} />
+        case '/sell':
+          return <Sell isSignedin={isSignedin} id={id} api={api} keyPressed={this.keyPressed} />
+        case '/about':
           return <About users={users} />
-        case 'buy':
-          return <Buy isSignedin={isSignedin} username={username} id={id} link={link} />
-        case 'sell':
-          return <Sell isSignedin={isSignedin} id={id} link={link} />
-        case 'login':
-          return <Login login={this.login} />
-        case 'register':
-          return <Register register={this.register} />
-        case 'account':
-          return <Account id={id} link={link} signOut={this.signOut} />
+        case '/login':
+          return <Login login={this.login} KeyPressed={this.keyPressed} />
+        case '/register':
+          return <Register register={this.register} KeyPressed={this.keyPressed} />
+        case '/account':
+          return <Account id={id} api={api} signOut={this.signOut} />
         default:
           return <h2>Loading...</h2>
       }
@@ -263,7 +276,12 @@ class App extends Component {
         <div id="content">
           <div></div>
           <div>
-            {changeSection()}
+            <Route path='/' exact component={changeSection} />
+            <Route path='/sell' component={changeSection} />
+            <Route path='/about' component={changeSection} />
+            <Route path='/login' component={changeSection} />
+            <Route path='/register' component={changeSection} />
+            <Route path='/account' component={changeSection} />
           </div>
           <div></div>
         </div>

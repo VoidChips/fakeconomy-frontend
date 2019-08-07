@@ -3,6 +3,8 @@
     background-color: rgb(29, 231, 83);
     display: flex;
     box-shadow: 2px 2px 10px 4px rgb(6, 128, 25) inset;
+    display: flex;
+    align-items: center;
 }
 
 @media all and (max-width: 862px) {
@@ -12,38 +14,11 @@
     }
 }
 
-#navbar ul {
-    list-style-type: none;
-    display: flex;
-    align-items: center;
-}
-
-#navbar li {
+#navbar .link {
     padding: 1rem 4rem;
     font-family: 'Ubuntu', sans-serif;
-}
-
-#navbar li:hover {
-    cursor: pointer;
-}
-
-.login-register {
-    color: rgb(241, 36, 36);
-}
-
-.login-register li:hover {
-    color: rgb(241, 36, 36);
-    background-color: #e0e0e0;
-    box-shadow: 3px 3px 15px 5px black;
-}
-
-.account-logout {
-    color: rgb(228, 145, 12);
-}
-
-.account-logout li:hover {
-    color: white;
-    background-color: rgb(38, 94, 247);
+    text-decoration: none;
+    color: black;
 }
 
 .unselected {
@@ -53,8 +28,29 @@
 .unselected:hover {
     transform: scale(1.2);
     background-color: rgb(67, 226, 109);
-    color: #e48717;
     box-shadow: 3px 3px 15px 5px black;
+}
+
+#login-register .link {
+    color: rgb(241, 36, 36);
+}
+
+#login-register .link:hover {
+    background-color: #2f2f2f;
+}
+
+#account-logout {
+    display: flex;
+    cursor: pointer;
+}
+
+#account-logout .link {
+    color: rgb(228, 145, 12);
+}
+
+#account-logout .link:hover {
+    color: white;
+    background-color: rgb(38, 94, 247);
 }
 
 .selected-main {

@@ -18,15 +18,22 @@ class Login extends React.Component {
         this.setState({ password: event.target.value });
     }
 
+    // listens to enter key
+    handleKeyEnter = (event) => {
+        if (this.props.KeyPressed(event, 'Enter')) {
+            this.submitLoginInfo();
+        }
+    }
+
     submitLoginInfo = () => {
-        const {username, password} = this.state;
+        const { username, password } = this.state;
         const { login } = this.props;
         if (username === '' || password === '') {
             alert('Please enter both username and password');
         }
         else {
             login(username, password);
-        } 
+        }
     }
 
     render() {
@@ -39,6 +46,7 @@ class Login extends React.Component {
                             type='text'
                             name='username'
                             onChange={this.handleUsernameChange}
+                            onKeyPress={this.handleKeyEnter}
                         />
                     </div>
                     <div className='item'>
@@ -47,6 +55,7 @@ class Login extends React.Component {
                             type='password'
                             name='password'
                             onChange={this.handlePasswordChange}
+                            onKeyPress={this.handleKeyEnter}
                         />
                     </div>
                     <button onClick={() => this.submitLoginInfo()}>Login</button>

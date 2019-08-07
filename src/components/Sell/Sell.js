@@ -57,10 +57,10 @@ class Sell extends React.Component {
         this.setState({ inventory: event.target.value });
     }
 
-    submitImage = (link, image) => {
+    submitImage = (api, image) => {
         const fd = new FormData();
         fd.append('image', image);
-        fetch(`${link}/add_image`, {
+        fetch(`${api}/add_image`, {
             method: 'POST',
             body: fd
         })
@@ -76,13 +76,20 @@ class Sell extends React.Component {
             .catch(err => alert(err));
     }
 
+    // listens to enter key
+    handleEnterKey = (event) => {
+        if (this.props.KeyPressed(event, 'Enter')) {
+            this.submitProduct();
+        }
+    }
+
     submitProduct = () => {
         if (this.props.isSignedin) {
-            const { link, id } = this.props;
+            const { api, id } = this.props;
             const { name, desc, image, price, inventory } = this.state;
-            const image_name = image.name;
-            if (name.length && image_name.length) {
-                fetch(`${link}/create_product`, {
+            if (name.length && image && !isNaN(price) && inventory >= 1 && Number.isInteger(Number(inventory))) {
+                const image_name = image.name;
+                fetch(`${api}/create_product`, {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -100,7 +107,7 @@ class Sell extends React.Component {
                     .then(response => response.json())
                     .then(result => {
                         if (result.result === 'product created') {
-                            this.submitImage(link, image);
+                            this.submitImage(api, image);
                             // wait for product image to be uploaded to the server so that the image link will work
                             setTimeout(() => {
                                 this.getUserProducts();
@@ -115,8 +122,11 @@ class Sell extends React.Component {
                     })
                     .catch(err => console.log(err));
             }
+            else if (inventory < 1 || !Number.isInteger(inventory)) {
+                alert('Inventory must be a whole number.');
+            }
             else {
-                alert(`Fill in the form.`);
+                alert('Fill in the form.');
             }
         }
         else {
@@ -127,7 +137,7 @@ class Sell extends React.Component {
     deleteProduct = (name, image) => {
         let isDelete = window.confirm('Are you sure?');
         if (isDelete) {
-            fetch(`${this.props.link}/delete_product`, {
+            fetch(`${this.props.api}/delete_product`, {
                 method: 'delete',
                 headers: {
                     'Accept': 'application/json',
@@ -148,14 +158,14 @@ class Sell extends React.Component {
     }
 
     getUserProducts = async () => {
-        const { link, id } = this.props;
-        const response = await fetch(`${link}/products/${id}/all`);
+        const { api, id } = this.props;
+        const response = await fetch(`${api}/products/${id}/all`);
         const products = await response.json();
         this.setState({ productList: products });
     }
 
     displayUserProducts = () => {
-        const { link } = this.props;
+        const { api } = this.props;
         const { productList } = this.state;
         let products = [];
         let i = 0;
@@ -167,7 +177,7 @@ class Sell extends React.Component {
                         <td>{name}</td>
                         <td>{description}</td>
                         <td>
-                            <img src={`${link}/image/${image}`} alt={image} width="120" height="120" />
+                            <img src={`${api}/image/${image}`} alt={image} width="120" height="120" />
                         </td>
                         <td>${price}</td>
                         <td>{inventory}</td>
@@ -239,7 +249,7 @@ class Sell extends React.Component {
                                     id="inventory"
                                     name="inventory"
                                     min="0"
-                                    placeholder="0"
+                                    placeholder="1 or greater"
                                     onChange={this.handleInventoryChange}
                                 />
                             </label>

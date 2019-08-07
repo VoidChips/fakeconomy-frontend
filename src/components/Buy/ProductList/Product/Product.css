@@ -13,17 +13,20 @@
 .product ul {
     list-style-type: none;
     word-wrap: break-word;
-    overflow: auto;
 }
 
 .product li {
-    margin: 0.6rem;
     height: auto;
+}
+
+.product image, #desc, .price, button {
+    margin: 0.6rem;
 }
 
 .product h3 {
     background: rgb(42, 235, 116);
     padding: 0.5rem;
+    margin-bottom: 0.7rem;
 }
 
 .product #image {

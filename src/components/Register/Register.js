@@ -25,6 +25,13 @@ class Register extends React.Component {
         this.setState({ password: event.target.value });
     }
 
+    // listens to enter key
+    handleEnterKey = (event) => {
+        if (this.props.KeyPressed(event, 'Enter')) {
+            this.submitRegisterInfo();
+        }
+    }
+
     submitRegisterInfo = () => {
         const { email, username, password } = this.state;
         const { register } = this.props;
@@ -75,6 +82,7 @@ class Register extends React.Component {
                             name='email'
                             required
                             onChange={this.handleEmailChange}
+                            onKeyPress={this.handleEnterKey}
                         />
                     </div>
                     <div className='item'>
@@ -84,6 +92,7 @@ class Register extends React.Component {
                             name='username'
                             required
                             onChange={this.handleUsernameChange}
+                            onKeyPress={this.handleEnterKey}
                         />
                     </div>
                     <div className='item'>
@@ -94,6 +103,7 @@ class Register extends React.Component {
                             minLength='8'
                             required
                             onChange={this.handlePasswordChange}
+                            onKeyPress={this.handleEnterKey}
                         />
                         <br></br>
                         <div className={this.state.hintCSS} onClick={() => this.handleHintClick()}>?</div>

@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
+    "react-app-polyfill": "^1.0.1",
     "react-dom": "^16.8.6",
     "react-favicon": "0.0.16",
     "react-ga": "^2.6.0",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {

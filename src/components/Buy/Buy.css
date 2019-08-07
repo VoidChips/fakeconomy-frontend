@@ -13,7 +13,7 @@
 
 .buy #search {
     display: grid;
-    grid-template-columns: 6fr 4rem;
+    grid-template-columns: 6fr 4.5rem;
     margin: 0 20%;
 }
 

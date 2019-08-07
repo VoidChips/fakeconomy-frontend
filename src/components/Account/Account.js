@@ -14,13 +14,13 @@ class Account extends React.Component {
     }
 
     getAccountInfo = async () => {
-        const response = await fetch(`${this.props.link}/account/${this.props.id}`);
+        const response = await fetch(`${this.props.api}/account/${this.props.id}`);
         const info = await response.json();
         this.setState({ account_info: info });
     }
 
     displayInfo = (info) => {
-        const { email, username, balance } = info;
+        const { email, username, balance} = info;
         return (
             <div>
                 <h3>Email: {email}</h3>
@@ -33,7 +33,7 @@ class Account extends React.Component {
     deleteAccount = () => {
         let isDelete = window.confirm('Are you sure?');
         if (isDelete) {
-            fetch(`${this.props.link}/delete_user/${this.state.account_info.username}`, {
+            fetch(`${this.props.api}/delete_user/${this.state.account_info.username}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -57,6 +57,7 @@ class Account extends React.Component {
                 <div id='container'>
                     {account_info !== '' ? this.displayInfo(account_info) : <p>Loading</p>}
                     <button onClick={() => this.deleteAccount()}>Delete Account</button>
+                    <h6>Registered: {account_info.registered_date}</h6>
                 </div>
             </div>
         )

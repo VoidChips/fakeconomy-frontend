@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar =
@@ -15,58 +16,52 @@ const Navbar =
 
         const showNotLoggedInState = () => {
             return (
-                <ul className='login-register'>
-                    <li
-                        onClick={() => updateSection('login')}
-                        className={selectCSS('login')}
-                    >
-                        Login
-                    </li>
-                    <li
-                        onClick={() => updateSection('register')}
-                        className={selectCSS('register')}
-                    >
-                        Register
-                    </li>
-                </ul>
+                <div id='login-register'>
+                    <Link
+                        to='/login'
+                        onClick={() => updateSection('/login')}
+                        className={selectCSS('/login') + ' link'}
+                    >Login</Link>
+                    <Link
+                        to='/register'
+                        onClick={() => updateSection('/register')}
+                        className={selectCSS('/register') + ' link'}
+                    >Register</Link>
+                </div>
             );
         }
 
         const showLoggedInState = () => {
             return (
-                <ul className='account-logout'>
-                    <li
-                        onClick={() => updateSection('account')}
-                        className={selectCSS('account')}
-                    >
-                        Account
-                    </li>
-                    <li
+                <div id='account-logout'>
+                    <Link
+                        to='/account'
+                        onClick={() => updateSection('/account')}
+                        className={selectCSS('/account') + ' link'}>Account</Link>
+                    <p
                         onClick={() => signOut()}
-                        className={selectCSS('logout')}
+                        className={selectCSS('logout') + ' link'}
                     >
                         Logout
-                    </li>
-                </ul>
+                    </p>
+                </div>
             );
         }
 
         return (
             <nav id='navbar' >
-                <ul className='main-content'>
-                    <li
-                        onClick={() => updateSection('buy')}
-                        className={selectCSS('buy')}
-                    >Buy</li>
-                    <li
-                        onClick={() => updateSection('sell')}
-                        className={selectCSS('sell')}
-                    >Sell</li>
-                    <li
-                        onClick={() => updateSection('about')}
-                        className={selectCSS('about')}
-                    >About</li>
-                </ul>
+                <Link
+                    to='/'
+                    onClick={() => updateSection('/')}
+                    className={selectCSS('/') + ' link'}>Buy</Link>
+                <Link
+                    to='/sell'
+                    onClick={() => updateSection('/sell')}
+                    className={selectCSS('/sell') + ' link'}>Sell</Link>
+                <Link
+                    to='/about'
+                    onClick={() => updateSection('/about')}
+                    className={selectCSS('/about') + ' link'}>About</Link>
                 { // only show the login and register text when not logged in
                     !isSignedin ?
                         showNotLoggedInState()
@@ -74,7 +69,6 @@ const Navbar =
                         // if logged in, show the account and logout text
                         showLoggedInState()
                 }
-
             </nav >
         );
     }

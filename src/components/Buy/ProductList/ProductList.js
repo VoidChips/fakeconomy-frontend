@@ -2,7 +2,7 @@ import React from 'react';
 import Product from './Product/Product';
 import './ProductList.css';
 
-const ProductList = ({ buy, input, type, productList, link }) => {
+const ProductList = ({ buy, input, type, productList, api }) => {
     let products = [];
     let i = 0;
     let newProducts = [];
@@ -10,7 +10,7 @@ const ProductList = ({ buy, input, type, productList, link }) => {
         for (let product of productList) {
             const { name, description, image, price, seller, inventory } = product;
             products.push(
-                <Product key={i} link={link} buy={buy} name={name} desc={description} image={image} price={price} seller={seller} inventory={inventory} />
+                <Product key={i} api={api} buy={buy} name={name} desc={description} image={image} price={price} seller={seller} inventory={inventory} />
             )
             i++;
         }
@@ -18,10 +18,10 @@ const ProductList = ({ buy, input, type, productList, link }) => {
         // make new product list that includes the search input
         // make both strings lowercase
         if (type === 'all') {
-            newProducts = products.filter(product => ((product.props.name).toLowerCase()).includes(input.toLowerCase()));
+            newProducts = products.filter(product => ((product.props.name).toLowerCase()).startsWith(input.toLowerCase()));
         }
         else if (type === 'seller') {
-            newProducts = products.filter(product => ((product.props.seller).toLowerCase()).includes(input.toLowerCase()));
+            newProducts = products.filter(product => ((product.props.seller).toLowerCase()).startsWith(input.toLowerCase()));
         }
     }
     productBoxes();

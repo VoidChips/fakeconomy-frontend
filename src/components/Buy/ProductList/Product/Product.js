@@ -1,7 +1,7 @@
 import React from 'react';
 import './Product.css';
 
-const Product = ({ link, buy, name, desc, image, price, seller, inventory }) => {
+const Product = ({ api, buy, name, desc, image, price, seller, inventory }) => {
     const alt_text = name + ' picture'
 
     return (
@@ -12,7 +12,7 @@ const Product = ({ link, buy, name, desc, image, price, seller, inventory }) => 
                 </li>
                 <li id="image">
                     <img
-                        src={`${link}/image/${image}`}
+                        src={`${api}/image/${image}`}
                         alt={alt_text}
                         width='200'
                         height='200'
